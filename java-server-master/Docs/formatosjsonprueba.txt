@@ -1,0 +1,17 @@
+{
+    "id":1,
+    "docId":"1",
+    "nombre":"TestPostman-Staff",
+    "password":"123",
+    "email":"testpostman-staff@festivandes.co",
+    "rol":"administrador"
+}
+
+{
+    "id":1,
+    "docId":"1",
+    "nombre":"TestPostman-Staff",
+    "password":"123",
+    "email":"testpostman-staff@festivandes.co",
+    "address":"home"
+}
