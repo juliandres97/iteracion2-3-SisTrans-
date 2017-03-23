@@ -313,4 +313,24 @@ public class FestivAndesAdminServices {
 			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
 		}
 	}
+	
+	@PUT
+	@Path("/crearEspectaculo")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response crearEspectaculo(Espectaculo espectaculo) {
+		FestivAndesMaster tm = new FestivAndesMaster(getPath());
+
+		if (sessionStarted) {
+			try {
+				tm.addEspectaculo(espectaculo);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(compania).build();
+		} else {
+			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+		}
+	}
+	
 }
