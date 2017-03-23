@@ -6,13 +6,13 @@ import java.util.*;
 
 import dao.DAOTablaClientes;
 import dao.DAOTablaCompanias;
-import dao.DAOTablaEspectaculos;
+import dao.DAOTablaSitios;
 import dao.DAOTablaStaff;
 import vos.Cliente;
 import vos.ClienteList;
 import vos.Compania;
 import vos.CompaniaList;
-import vos.Espectaculo;
+import vos.Sitio;
 import vos.Staff;
 import vos.StaffList;
 
@@ -335,36 +335,6 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoCliente.cerrarRecursos();
-				if (this.conn != null)
-					this.conn.close();
-			} catch (SQLException exception) {
-				System.err.println("SQLException closing resources:" + exception.getMessage());
-				exception.printStackTrace();
-				throw exception;
-			}
-		}
-	}
-	
-	public void addEspectaculo(Espectaculo espectaculo) throws Exception {
-		DAOTablaEspectaculos daoEspectaculo = new DAOTablaEspectaculos();
-
-		try {
-			// Transaccion
-			this.conn = darConexion();
-			daoEspectaculo.setConn(conn);
-			daoEspectaculo.addEspectaculo(espectaculo);
-			conn.commit();
-		} catch (SQLException e) {
-			System.err.println("SQLException:" + e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e) {
-			System.err.println("GeneralException:" + e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} finally {
-			try {
-				daoEspectaculo.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -717,6 +687,37 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoCompania.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public void addSitio(Sitio sitio) throws SQLException {
+		// TODO Auto-generated method stub
+		DAOTablaSitios daoSitio = new DAOTablaSitios();
+
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoSitio.setConn(conn);
+			daoSitio.addSitio(sitio);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSitio.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {

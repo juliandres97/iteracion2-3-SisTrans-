@@ -1,15 +1,12 @@
 package dao;
 
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 
-import vos.Funcion;
+import vos.Sitio;
 
-/**
- * @author ja.bermudez10
- */
-public class DAOTablaFunciones {
+public class DAOTablaSitios {
+
 	/**
 	 * Arraylits de recursos que se usan para la ejecucion de sentencias SQL
 	 */
@@ -24,7 +21,7 @@ public class DAOTablaFunciones {
 	 * Metodo constructor <b>post: </b> Crea la instancia del DAO e inicializa
 	 * el Arraylist de recursos
 	 */
-	public DAOTablaFunciones() {
+	public DAOTablaSitios() {
 		recursos = new ArrayList<Object>();
 	}
 
@@ -55,41 +52,42 @@ public class DAOTablaFunciones {
 	}
 
 	/**
-	 * Metodo que agrega el funcion que entra como parametro a la base de datos.
+	 * Metodo que agrega el usuario que entra como parametro a la base de datos.
 	 * 
-	 * @param video
-	 *            - el video a agregar. video != null <b> post: </b> se ha
-	 *            agregado el video a la base de datos en la transaction actual.
-	 *            pendiente que el video master haga commit para que el video
+	 * @param sitios
+	 *            - el sitios a agregar. sitios != null <b> post: </b> se ha
+	 *            agregado el sitios a la base de datos en la transaction actual.
+	 *            pendiente que el sitios master haga commit para que el sitios
 	 *            baje a la base de datos.
 	 * @throws SQLException
 	 *             - Cualquier error que la base de datos arroje. No pudo
-	 *             agregar el video a la base de datos
+	 *             agregar el sitios a la base de datos
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addFuncion(Funcion funcion) throws SQLException {
+	public void addSitio(Sitio sitios) throws SQLException {
 		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.FUNCIONES VALUES (?,?,?)";
+		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.SITIOS VALUES (?,?,?,?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
-		prepStmt.setInt(1, funcion.getId());
-		prepStmt.setInt(2, funcion.getIdEspectaculo());
-		prepStmt.setDate(3, funcion.getFechaRealizacion());
+		prepStmt.setInt(1, sitios.getId());
+		prepStmt.setString(2, sitios.getTipo());
+		prepStmt.setString(3, sitios.getTipo());
+		prepStmt.setInt(4, sitios.getAforo());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
-
+	
 	/**
-	 * Método que busca el/los videos con el nombre que entra como parámetro.
-	 * @param name - Nombre de el/los videos a buscar
-	 * @return ArrayList con los videos encontrados
+	 * Método que busca el/los sitioss con el nombre que entra como parámetro.
+	 * @param name - Nombre de el/los sitioss a buscar
+	 * @return ArrayList con los sitioss encontrados
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public Funcion searchAdminById(int id) throws SQLException, Exception {
-		Funcion funcion = null;
+	public Sitio searchAdminByDocIdPassword(int id) throws SQLException, Exception {
+		Sitio sitios = null;
 
-		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES"
+		String query = "SELECT * FROM ISIS2304B031710.SITIOS "
 				+ "WHERE ID = ?";
 
 		PreparedStatement prepStmt = conn.prepareStatement(query);
@@ -99,34 +97,37 @@ public class DAOTablaFunciones {
 
 		if (rs.next()) {
 			int idQ = Integer.parseInt(rs.getString("ID"));
-			int idEspectaculo = Integer.parseInt(rs.getString("ID_ESPECTACULO"));
-			Date fechaRealizacion = rs.getDate("DIA_REALIZACION");
+			String nombre = rs.getString("NOMBREO");
+			String tipo = rs.getString("TIPO");
+			int aforo = Integer.parseInt(rs.getString("PASSWORD_MIEMBRO"));
 			
-			funcion = new Funcion(id, idEspectaculo, null, fechaRealizacion);
+			sitios = new Sitio(id, tipo, aforo, null, null);
 		}
+		
+		
 
-		return funcion;
+		return sitios;
 	}
 
 	/**
-	 * Metodo que elimina el funcion que entra como parametro en la base de
+	 * Metodo que elimina el miembro que entra como parametro en la base de
 	 * datos.
 	 * 
-	 * @param funcion
-	 *            - el funcion a borrar. funcion != null <b> post: </b> se ha
-	 *            borrado el funcion en la base de datos en la transaction
-	 *            actual. pendiente que el funcion master haga commit para que
+	 * @param miembro
+	 *            - el miembro a borrar. miembro != null <b> post: </b> se ha
+	 *            borrado el miembro en la base de datos en la transaction
+	 *            actual. pendiente que el miembro master haga commit para que
 	 *            los cambios bajen a la base de datos.
 	 * @throws SQLException
 	 *             - Cualquier error que la base de datos arroje. No pudo
-	 *             actualizar el funcion.
+	 *             actualizar el miembro.
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void deleteFuncion(Funcion funcion) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE ISIS2304B031710.FUNCIONES WHERE ID = ?";
+	public void deleteSitio(Sitio sitios) throws SQLException, Exception {
+		String deleteSTAFF = "DELETE ISIS2304B031710.SITIOS WHERE ID_MIEMBRO = ?";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
-		presStmt.setInt(1, funcion.getId());
+		presStmt.setInt(1, sitios.getId());
 		recursos.add(presStmt);
 		presStmt.executeQuery();
 	}
