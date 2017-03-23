@@ -6,12 +6,16 @@ import java.util.*;
 
 import dao.DAOTablaClientes;
 import dao.DAOTablaCompanias;
+import dao.DAOTablaEspectaculos;
+import dao.DAOTablaFunciones;
 import dao.DAOTablaSitios;
 import dao.DAOTablaStaff;
 import vos.Cliente;
 import vos.ClienteList;
 import vos.Compania;
 import vos.CompaniaList;
+import vos.Espectaculo;
+import vos.Funcion;
 import vos.Sitio;
 import vos.Staff;
 import vos.StaffList;
@@ -696,8 +700,36 @@ public class FestivAndesMaster {
 			}
 		}
 	}
+	
+	public void deleteFuncion(Funcion compania) throws Exception {
+		DAOTablaFunciones daoCompania = new DAOTablaFunciones();
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoCompania.setConn(conn);
+			daoCompania.deleteFuncion(compania);
 
-<<<<<<< HEAD
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoCompania.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
 	public void updateEspectaculo(Espectaculo espectaculo) throws Exception{
 		DAOTablaEspectaculos daoCliente = new DAOTablaEspectaculos();
 		try {
@@ -733,19 +765,6 @@ public class FestivAndesMaster {
 			this.conn = darConexion();
 			daoCliente.setConn(conn);
 			daoCliente.deleteEspectaculo(cliente);
-
-=======
-	public void addSitio(Sitio sitio) throws SQLException {
-		// TODO Auto-generated method stub
-		DAOTablaSitios daoSitio = new DAOTablaSitios();
-
-		try {
-			// Transaccion
-			this.conn = darConexion();
-			daoSitio.setConn(conn);
-			daoSitio.addSitio(sitio);
-			conn.commit();
->>>>>>> ea78c56e74463ce3f039b619bb40a1830a667f4e
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -756,11 +775,75 @@ public class FestivAndesMaster {
 			throw e;
 		} finally {
 			try {
-<<<<<<< HEAD
 				daoCliente.cerrarRecursos();
-=======
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	public void addSitio(Sitio sitio) throws SQLException {
+		// TODO Auto-generated method stub
+		DAOTablaSitios daoSitio = new DAOTablaSitios();
+
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoSitio.setConn(conn);
+			daoSitio.addSitio(sitio);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				
+
 				daoSitio.cerrarRecursos();
->>>>>>> ea78c56e74463ce3f039b619bb40a1830a667f4e
+
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	public void addFuncion(Funcion sitio) throws SQLException {
+		// TODO Auto-generated method stub
+		DAOTablaFunciones daoSitio = new DAOTablaFunciones();
+
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoSitio.setConn(conn);
+			daoSitio.addFuncion(sitio);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				
+
+				daoSitio.cerrarRecursos();
+
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
