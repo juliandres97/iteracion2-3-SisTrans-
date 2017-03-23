@@ -726,5 +726,62 @@ public class FestivAndesMaster {
 			}
 		}
 	}
+
+	public void updateEspectaculo(Espectaculo espectaculo) throws Exception{
+		DAOTablaEspectaculos daoCliente = new DAOTablaEspectaculos();
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoCliente.setConn(conn);
+			daoCliente.updateEspectaculo(espectaculo);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoCliente.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	public void deleteEspectaculo(Espectaculo cliente) throws Exception {
+		DAOTablaEspectaculos daoCliente = new DAOTablaEspectaculos();
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoCliente.setConn(conn);
+			daoCliente.deleteEspectaculo(cliente);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoCliente.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
 	
 }

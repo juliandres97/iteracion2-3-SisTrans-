@@ -9,6 +9,7 @@ import vos.Cliente;
 import vos.ClienteList;
 import vos.Compania;
 import vos.CompaniaList;
+import vos.Espectaculo;
 import vos.Staff;
 
 /**
@@ -284,7 +285,26 @@ public class FestivAndesAdminServices {
 			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
 		}
 	}
+	
+	@POST
+	@Path("/actespectaculo")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateEspectaculo(Espectaculo espectaculo) {
+		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
+		if (sessionStarted) {
+			try {
+				tm.updateEspectaculo(espectaculo);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(compania).build();
+		} else {
+			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+		}
+	}
+	
 	/**
 	 * Metodo que expone servicio REST usando POST que modifica el compania que
 	 * recibe en Json <b>URL: </b>
