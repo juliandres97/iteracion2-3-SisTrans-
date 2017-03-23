@@ -343,11 +343,11 @@ public class FestivAndesAdminServices {
 
 		if (sessionStarted) {
 			try {
-				tm.addEspectaculo(espectaculo);
+//				tm.addEspectaculo(espectaculo);
 			} catch (Exception e) {
 				return Response.status(500).entity(doErrorMessage(e)).build();
 			}
-			return Response.status(200).entity(compania).build();
+			return Response.status(200).entity(espectaculo).build();
 		} else {
 			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
 		}
