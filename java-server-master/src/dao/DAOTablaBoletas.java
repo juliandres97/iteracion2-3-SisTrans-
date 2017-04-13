@@ -78,4 +78,27 @@ public class DAOTablaBoletas {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
+	
+	/**
+	 * Metodo que elimina la boleta que entra como parametro en la base de
+	 * datos.
+	 * 
+	 * @param boleta
+	 *            -  boleta a borrar. boleta != null <b> post: </b> se ha
+	 *            borrado la boleta en la base de datos en la transaction
+	 *            actual. pendiente que el master haga commit para que
+	 *            los cambios bajen a la base de datos.
+	 * @throws SQLException
+	 *             - Cualquier error que la base de datos arroje. No pudo
+	 *             actualizar la boleta.
+	 * @throws Exception
+	 *             - Cualquier error que no corresponda a la base de datos
+	 */
+	public void regresarBoleta(Boleta boleta) throws SQLException, Exception {
+		String deleteSTAFF = "DELETE ISIS2304B031710.BOLETAS WHERE ID = ?";
+		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
+		presStmt.setInt(1, boleta.getId());
+		recursos.add(presStmt);
+		presStmt.executeQuery();
+	}
 }

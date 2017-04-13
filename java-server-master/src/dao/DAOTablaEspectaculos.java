@@ -161,4 +161,34 @@ public class DAOTablaEspectaculos {
 
 		return espectaculo;
 	}
+	
+	public List<Espectaculo> searchEspectaculosDeCompania(int idCompania) throws SQLException {
+		List<Espectaculo> espectaculos = new ArrayList<Espectaculo>();
+
+		String queryCompaniasDeEspectaculo = "SELECT E.ID, E.NOMBRE, E.DURACION,"
+				+ " E.IDIOMA, E.COSTO, E.TRADUCTOR, E.DESCRIPCION, E.PUBLICOOBJ"
+				+ " FROM ISIS2304B031710.COMPANIA_ESPECTACULO CE INNER JOIN ISIS2304B031710.ESPECTACULOS E"
+				+ " ON CE.ID_ESPECTACULO = E.ID" + " WHERE CE.ID_COMPANIA = ?";
+		PreparedStatement prepStmt = conn.prepareStatement(queryCompaniasDeEspectaculo);
+		prepStmt.setInt(1, idCompania);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		DAOTablaCompanias daoCompanias = new DAOTablaCompanias();
+		
+		while (rs.next()) {
+			int id = Integer.parseInt(rs.getString("ID"));
+			String nombre = rs.getString("NOMBRE");
+			int duracion = Integer.parseInt(rs.getString("DURACION"));
+			String idioma = rs.getString("IDIOMA");
+			String traductor = rs.getString("TRADUCTOR");
+			String descripcion = rs.getString("DESCRIPCION");
+			String publicoObj = rs.getString("PUBLICOOBJ");
+			
+			Espectaculo espectaculo = new Espectaculo(id, nombre, duracion, idioma, traductor, descripcion, publicoObj, daoCompanias.searchCompaniasDeEspectaculo(id));
+		    espectaculos.add(espectaculo);
+		}
+		
+		return espectaculos;
+	}
 }

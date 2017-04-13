@@ -149,4 +149,45 @@ public class FestivAndesClienteServices {
 			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
 		}
 	}
+	
+	@DELETE
+	@Path("/returnboletareg")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response regresarBoleta(Boleta boleta)
+	{
+		FestivAndesMaster tm = new FestivAndesMaster(getPath());
+
+		if (clientSessionStarted) {			
+			try {
+				tm.regresarBoleta(currentClient, boleta);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(boleta).build();
+		} else {
+			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+		}
+	}
+	
+	@POST
+	@Path("/realizarabono")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response realizarAbono(Abono abono)
+	{
+		FestivAndesMaster tm = new FestivAndesMaster(getPath());
+
+		if (clientSessionStarted) {			
+			try {
+				tm.realizarAbono(currentClient, abono);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(abono).build();
+		} else {
+			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+		}
+	}
+	
 }

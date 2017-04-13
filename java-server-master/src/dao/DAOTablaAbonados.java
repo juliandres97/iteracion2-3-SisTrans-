@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.Boleta;
+import vos.Abono;
 import vos.Cliente;
 
-public class DAOTablaVentas {
+public class DAOTablaAbonados {
 	/**
 	 * Arraylits de recursos que se usan para la ejecucion de sentencias SQL
 	 */
@@ -23,7 +23,7 @@ public class DAOTablaVentas {
 	 * Metodo constructor <b>post: </b> Crea la instancia del DAO e inicializa
 	 * el Arraylist de recursos
 	 */
-	public DAOTablaVentas() {
+	public DAOTablaAbonados() {
 		recursos = new ArrayList<Object>();
 	}
 
@@ -67,21 +67,21 @@ public class DAOTablaVentas {
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addVenta(Cliente cliente, Boleta boleta) throws SQLException {
+	public void addAbonado(Cliente cliente, Abono abono) throws SQLException {
 		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.VENTAS VALUES (?,?)";
+		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.ABONADOS VALUES (?,?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
 		prepStmt.setInt(1, cliente.getId());
-		prepStmt.setInt(2, boleta.getId());
+		prepStmt.setInt(2, abono.getId());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
 	
-	public void regresarVenta(Boleta boleta) throws SQLException {
+	public void regresarAbonado(Abono abono) throws SQLException {
 		// TODO Auto-generated method stub
 		String insertIntoSTAFF = "DELETE ISIS2304B031710.VENTAS WHERE ID_BOLETA = ?";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
-		prepStmt.setInt(1, boleta.getId());
+		prepStmt.setInt(1, abono.getId());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}

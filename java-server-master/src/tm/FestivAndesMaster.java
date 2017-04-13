@@ -256,7 +256,7 @@ public class FestivAndesMaster {
 		}
 		return staff;
 	}
-	
+
 	/**
 	 * MÃ©todo que modela la transacciÃ³n que busca el/los videos en la base de
 	 * datos con el nombre entra como parÃ¡metro.
@@ -774,7 +774,7 @@ public class FestivAndesMaster {
 				conn.rollback();
 				throw new Exception("Las compañias deben existir al momento de crear un espectáculo.");
 			}
-							
+
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -872,7 +872,7 @@ public class FestivAndesMaster {
 
 			//Subtransaccion 1
 			daoSitio.addSitio(sitio);
-			
+
 			//Subtransaccion 2
 			if (sitio.getEspecificaciones() != null && !sitio.getEspecificaciones().isEmpty())
 				for (Especificacion especificacion : sitio.getEspecificaciones())
@@ -889,8 +889,8 @@ public class FestivAndesMaster {
 
 			//Chequeo de existencia de localidades
 			if (sitio.getLocalidades().isEmpty() ||
-			    sitio.getLocalidades() == null ||
-				sitio.getLocalidades().size() == totalLocalidadesNoExistentes)
+					sitio.getLocalidades() == null ||
+					sitio.getLocalidades().size() == totalLocalidadesNoExistentes)
 			{
 				conn.rollback();
 				throw new Exception("Las localidades deben existir al momento de crear un sitio.");
@@ -932,12 +932,12 @@ public class FestivAndesMaster {
 			daoFunciones.setConn(conn);
 			daoSitios.setConn(conn);
 			daoCupos.setConn(conn);
-			
+
 			daoFunciones.addFuncion(funcion);
-			
+
 			int cupoInicial = daoSitios.getAforoSitio(funcion.getIdSitio());
 			daoCupos.addCupo(funcion, cupoInicial);
-			
+
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -989,52 +989,52 @@ public class FestivAndesMaster {
 		}
 	}
 
-//	public Cliente getClienteMasEspectaculos() throws SQLException, Exception {
-//		// TODO Auto-generated method stub
-//		DAOTablaEspectador daoCompania = new DAOTablaEspectador();
-//		Cliente c = null;
-//
-//		try {
-//			// Transaccion
-//			this.conn = darConexion();
-//			daoCompania.setConn(conn);
-//			c = daoCompania.darClienteMasEspectaculo();
-//		} catch (SQLException e) {
-//			System.err.println("SQLException:" + e.getMessage());
-//			e.printStackTrace();
-//			throw e;
-//		} catch (Exception e) {
-//			System.err.println("GeneralException:" + e.getMessage());
-//			e.printStackTrace();
-//			throw e;
-//		} finally {
-//			try {
-//				daoCompania.cerrarRecursos();
-//				if (this.conn != null)
-//					this.conn.close();
-//			} catch (SQLException exception) {
-//				System.err.println("SQLException closing resources:" + exception.getMessage());
-//				exception.printStackTrace();
-//				throw exception;
-//			}
-//		}
-//
-//		return c;
-//	}
+	//	public Cliente getClienteMasEspectaculos() throws SQLException, Exception {
+	//		// TODO Auto-generated method stub
+	//		DAOTablaEspectador daoCompania = new DAOTablaEspectador();
+	//		Cliente c = null;
+	//
+	//		try {
+	//			// Transaccion
+	//			this.conn = darConexion();
+	//			daoCompania.setConn(conn);
+	//			c = daoCompania.darClienteMasEspectaculo();
+	//		} catch (SQLException e) {
+	//			System.err.println("SQLException:" + e.getMessage());
+	//			e.printStackTrace();
+	//			throw e;
+	//		} catch (Exception e) {
+	//			System.err.println("GeneralException:" + e.getMessage());
+	//			e.printStackTrace();
+	//			throw e;
+	//		} finally {
+	//			try {
+	//				daoCompania.cerrarRecursos();
+	//				if (this.conn != null)
+	//					this.conn.close();
+	//			} catch (SQLException exception) {
+	//				System.err.println("SQLException closing resources:" + exception.getMessage());
+	//				exception.printStackTrace();
+	//				throw exception;
+	//			}
+	//		}
+	//
+	//		return c;
+	//	}
 
 
 	public void addGeneros(Cliente cliente, GeneroList generos) throws Exception {
 		// TODO Auto-generated method stub
 		DAOTablaPreferencias daoPreferencias = new DAOTablaPreferencias();
 		DAOTablaGeneros daoGeneros = new DAOTablaGeneros();
-		
+
 		try {
 			// Transaccion
 			this.conn = darConexion();
 			daoPreferencias.setConn(conn);
 			daoGeneros.setConn(conn);
 			conn.setAutoCommit(false);
-			
+
 			int totalGenerosNoExistentes = 0;
 			for (Genero genero : generos.getGeneros()) {
 				if (!daoGeneros.existeGenero(genero.getId()))
@@ -1042,13 +1042,13 @@ public class FestivAndesMaster {
 				else if(daoGeneros.existeGenero(genero.getId()))
 					daoPreferencias.addPreferencia(cliente, genero);
 			}
-			
+
 			if (generos.getGeneros().isEmpty() ||
 					generos.getGeneros() == null ||
 					generos.getGeneros().size() == totalGenerosNoExistentes) {
 				conn.rollback();
 			}
-			
+
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -1070,12 +1070,12 @@ public class FestivAndesMaster {
 			}
 		}
 	}
-	
+
 	public void comprarBoletaReg(Cliente cliente, Boleta boleta) throws Exception {
 		DAOTablaBoletas daoBoletas = new DAOTablaBoletas();
 		DAOTablaVentas daoVentas = new DAOTablaVentas();
 		DAOTablaCupos daoCupos = new DAOTablaCupos();
-		
+
 		try {
 			// Transaccion
 			this.conn = darConexion();
@@ -1083,16 +1083,16 @@ public class FestivAndesMaster {
 			daoVentas.setConn(conn);
 			daoCupos.setConn(conn);
 			conn.setAutoCommit(false);
-			
+
 			if (daoCupos.getCupoActual(boleta.getIdEspectaculo(), boleta.getIdFuncion()) > 0) {
 				daoBoletas.addBoleta(boleta);
 				daoVentas.addVenta(cliente, boleta);
 				daoCupos.updateCupoVentaBoleta(boleta);
-				
+
 				conn.commit();
 			}
 			else {
-				
+
 				throw new Exception("No hay cupo disponible para la función.");
 			}
 		} catch (SQLException e) {
@@ -1115,12 +1115,12 @@ public class FestivAndesMaster {
 			}
 		}
 	}
-	
+
 	public void comprarBoletasReg(Cliente cliente, BoletaList boletas) throws Exception {
 		DAOTablaBoletas daoBoletas = new DAOTablaBoletas();
 		DAOTablaVentas daoVentas = new DAOTablaVentas();
 		DAOTablaCupos daoCupos = new DAOTablaCupos();
-		
+
 		try {
 			// Transaccion
 			this.conn = darConexion();
@@ -1128,20 +1128,20 @@ public class FestivAndesMaster {
 			daoVentas.setConn(conn);
 			daoCupos.setConn(conn);
 			conn.setAutoCommit(false);
-			
+
 			int cantBoletasCompradas = 0;
-			
+
 			for (Boleta boleta : boletas.getBoletas()) {
 				if (daoCupos.getCupoActual(boleta.getIdEspectaculo(), boleta.getIdFuncion()) > 0) {
 					daoBoletas.addBoleta(boleta);
 					daoVentas.addVenta(cliente, boleta);
 					daoCupos.updateCupoVentaBoleta(boleta);
-					
+
 					conn.setSavepoint();
 					cantBoletasCompradas++;
 				}
 			}
-			
+
 			if (boletas.getBoletas().size() == cantBoletasCompradas)
 				conn.commit();
 			else {
@@ -1159,6 +1159,81 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoVentas.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public void regresarBoleta(Cliente cliente, Boleta boleta) throws Exception {
+		DAOTablaBoletas daoBoletas = new DAOTablaBoletas();
+		DAOTablaVentas daoVentas = new DAOTablaVentas();
+		DAOTablaCupos daoCupos = new DAOTablaCupos();
+
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoBoletas.setConn(conn);
+			daoVentas.setConn(conn);
+			daoCupos.setConn(conn);
+			conn.setAutoCommit(false);
+
+			daoBoletas.regresarBoleta(boleta);
+			daoVentas.regresarVenta(boleta);
+			daoCupos.updateCupoRegresoBoleta(boleta);
+
+			conn.commit();
+		}catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVentas.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	public void realizarAbono(Cliente cliente, Abono abono) throws Exception {
+		DAOTablaAbonos daoAbonos = new DAOTablaAbonos();
+		DAOTablaAbonados daoAbonados = new DAOTablaAbonados();
+
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoAbonos.setConn(conn);
+			daoAbonados.setConn(conn);
+			conn.setAutoCommit(false);
+			
+			daoAbonos.addAbono(abono);
+			daoAbonados.addAbonado(cliente, abono);
+			
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoAbonados.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {

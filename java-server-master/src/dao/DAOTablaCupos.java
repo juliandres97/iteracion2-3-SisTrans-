@@ -89,6 +89,17 @@ public class DAOTablaCupos {
 		prepStmt.executeQuery();
 	}
 	
+	public void updateCupoRegresoBoleta(Boleta boleta) throws SQLException {
+		String updateCUPOS = "UPDATE ISIS2304B031710.CUPOS SET CUPO = ? WHERE (ID_ESPECTACULO = ?) AND (ID_FUNCION = ?)";
+		PreparedStatement prepStmt = conn.prepareStatement(updateCUPOS);
+		int nuevoCupo = getCupoActual(boleta.getIdEspectaculo(), boleta.getIdFuncion()) + 1;
+		prepStmt.setInt(1, nuevoCupo);
+		prepStmt.setInt(2, boleta.getIdEspectaculo());
+		prepStmt.setInt(3, boleta.getIdFuncion());
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
+	
 	public int getCupoActual(int idEspectaculo, int idFuncion) throws SQLException {
 		int cupo = 0;
 		
