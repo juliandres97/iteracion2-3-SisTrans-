@@ -1,0 +1,229 @@
+{
+	"variables": [],
+	"info": {
+		"name": "FestivAndes",
+		"_postman_id": "bfa6e929-1dc2-8d27-640e-d9a32a7fcde4",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"description": "HTTP methods for an admin",
+			"item": [
+				{
+					"name": "Authentication",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/admin/auth/staff=1/psswrd=1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":1,\r\n\t\"nombre\":\"Sitio 1\",\r\n\t\"tipoSitio\":\"Coliseo\",\r\n\t\"aforo\":150,\r\n\t\"localidades\":[\r\n\t\t{\r\n\t\t\t\"id\":1\r\n\t\t}\r\n\t],\r\n\t\"silleteria\":\"fija\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Cliente",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/admin/crearcliente",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1,\r\n    \"docId\":\"1\",\r\n    \"nombre\":\"cliente1\",\r\n    \"password\":\"1\",\r\n    \"email\":\"cliente1@festivandes.org\",\r\n    \"address\":\"home\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Compania",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/admin/crearcompania",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":1,\r\n\t\"nit\":1,\r\n\t\"nombre\":\"Compania1\",\r\n\t\"representante\":\"Representante1\",\r\n\t\"pais\":\"Colombia\",\r\n\t\"web\":\"www.compania1.org\",\r\n\t\"password\":\"1\",\r\n\t\"llegada\":\"2012-04-23\",\r\n\t\"salida\":\"2012-06-23\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Espectaculo",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/admin/crearespectaculo",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":1,\r\n\t\"nombre\":\"Espectaculo1\",\r\n\t\"duracion\":1,\r\n\t\"idioma\":\"Espaniol\",\r\n\t\"traductor\":\"n\",\r\n\t\"descripcion\":\"DescEspectaculo1\",\r\n\t\"publicoObj\":\"todos\",\r\n\t\"companias\": [\r\n\t\t{\r\n\t\t\t\"id\":1\r\n\t\t}\r\n\t]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Sitio",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/admin/crearsitio",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 1,\r\n\t\"nombre\": \"Sitio 1\",\r\n\t\"tipoSitio\": \"Parque\",\r\n\t\"aforo\": 75,\r\n\t\"localidades\": [\r\n\t  {\r\n\t    \"id\": 1\r\n\t  }\r\n\t],\r\n\t\"especificaciones\": [\r\n\t  {\r\n\t    \"id\": 1,\r\n\t    \"especificacion\": \"Espec1\"\r\n\t  }\r\n\t],\r\n\t\"silleteria\": \"fija\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Funcion",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/admin/crearfuncion",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":2,\r\n\t\"idEspectaculo\":2,\r\n\t\"idSitio\":2,\r\n\t\"fechaRealizacion\":\"2012-05-23\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Basic (Staff)",
+			"description": "HTTP methods for basic services. E.g: Managing Staff of FestivAndes (Administrador, Operario).",
+			"item": [
+				{
+					"name": "Create Staff",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/staff/crearmiembro",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1,\r\n    \"docId\":\"1\",\r\n    \"nombre\":\"admin1\",\r\n    \"password\":\"1\",\r\n    \"email\":\"admin1@adminfestivandes.org\",\r\n    \"rol\":\"administrador\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"description": "",
+			"item": [
+				{
+					"name": "Authentication",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/client/auth/client=1/psswrd=1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":1,\r\n\t\"nombre\":\"Sitio 1\",\r\n\t\"tipoSitio\":\"Coliseo\",\r\n\t\"aforo\":150,\r\n\t\"localidades\":[\r\n\t\t{\r\n\t\t\t\"id\":1\r\n\t\t}\r\n\t],\r\n\t\"silleteria\":\"fija\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Preferencias",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/client/regpref",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"generos\":[\n\t\t{\n\t\t\t\"id\":1\n\t\t}\n\t]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Compra Boleta (Registrado)",
+					"request": {
+						"url": "http://localhost:8081/FestivAndes/rest/client/buyreg",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":1,\r\n\t\"idEspectaculo\":1,\r\n\t\"idFuncion\":1,\r\n\t\"idSitio\":1,\r\n\t\"valor\":10000\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

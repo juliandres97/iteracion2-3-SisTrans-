@@ -19,7 +19,7 @@ public class Compania {
 	@JsonProperty(value = "nombre")
 	private String nombre;
 
-	@JsonProperty(value = "respresentante")
+	@JsonProperty(value = "representante")
 	private String representante;
 
 	@JsonProperty(value = "pais")

@@ -1,17 +1,128 @@
+//POST Staff
 {
-    "id":1,
-    "docId":"1",
-    "nombre":"TestPostman-Staff",
-    "password":"123",
-    "email":"testpostman-staff@festivandes.co",
+    "id":2,
+    "docId":"2",
+    "nombre":"admin2",
+    "password":"2",
+    "email":"admin2@adminfestivandes.org",
     "rol":"administrador"
 }
 
 {
+	"staffList": [
+		{
+		    "id":1,
+		    "docId":"1",
+		    "nombre":"TestPostman-Staff",
+		    "password":"123",
+		    "email":"testpostman-staff@festivandes.co",
+		    "rol":"administrador"
+		},
+		{
+		    "id":1,
+		    "docId":"1",
+		    "nombre":"TestPostman-Staff",
+		    "password":"123",
+		    "email":"testpostman-staff@festivandes.co",
+		    "rol":"operador"
+		}
+	]
+}
+
+/POST Cliente
+{
     "id":1,
     "docId":"1",
-    "nombre":"TestPostman-Staff",
-    "password":"123",
-    "email":"testpostman-staff@festivandes.co",
+    "nombre":"cliente1",
+    "password":"1",
+    "email":"cliente1@festivandes.org",
     "address":"home"
+}
+
+{
+	"clientes": [
+		{
+		    "id":2,
+		    "docId":"2",
+		    "nombre":"cliente2",
+		    "password":"2",
+		    "email":"cliente2@festivandes.org",
+		    "address":"home"
+		},
+		{
+		    "id":3,
+		    "docId":"3",
+		    "nombre":"cliente3",
+		    "password":"3",
+		    "email":"cliente3@festivandes.org",
+		    "address":"home"
+		}
+	]
+}
+
+//POST Compania
+
+{
+	"id":1,
+	"nit":1,
+	"nombre":"Compania1",
+	"representante":"Representante1",
+	"pais":"Colombia",
+	"web":"www.compania1.org",
+	"password":"1",
+	"llegada":"2012-04-23",
+	"salida":"2012-06-23"
+}
+
+//POST Espectaculo
+{
+	"id":1,
+	"nombre":"Espectaculo1",
+	"duracion":1,
+	"idioma":"Espaniol",
+	"traductor":"n",
+	"descripcion":"DescEspectaculo1",
+	"publicoObj":"todos",
+	"companias": [
+		{
+			"id":1
+		}
+	]
+}
+
+//POST Sitio
+{
+	"id": 1,
+	"nombre": "Sitio 1",
+	"tipoSitio": "Coliseo",
+	"aforo": 150,
+	"localidades": [
+	  {
+	    "id": 1
+	  }
+	],
+	"especificaciones": [
+	  {
+	    "id": 1,
+	    "especificacion": "Espec1"
+	  }
+	],
+	"silleteria": "fija"
+}
+
+//POST Funcion
+{
+	"id":1,
+	"idEspectaculo":1,
+	"idSitio":1,
+	"fechaRealizacion":"2012-05-23"
+}
+
+//POST Reg Pref
+{
+	"generos":[
+		{
+			"id":1
+		}
+	]
 }

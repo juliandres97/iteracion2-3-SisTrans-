@@ -93,7 +93,7 @@ public class DAOTablaCompanias {
 	public Compania searchCompaniaByNitPassword(String nit, String password) throws SQLException, Exception {
 		Compania compania = null;
 
-		String query = "SELECT * FROM ISIS2304B031710.COMPANIAS WHERE (NIT_COMPANIA = ?) AND (PASSWORD_COMPANIA = ?)";
+		String query = "SELECT * FROM ISIS2304B031710.COMPANIAS WHERE (NIT = ?) AND (PASSWORD = ?)";
 
 		PreparedStatement prepStmt = conn.prepareStatement(query);
 		prepStmt.setString(1, nit);
@@ -102,17 +102,55 @@ public class DAOTablaCompanias {
 		ResultSet rs = prepStmt.executeQuery();
 
 		if (rs.next()) {
-			int id = Integer.parseInt(rs.getString("ID_COMPANIA"));
-			String nitQ = rs.getString("NIT_COMPANIA");
-			String nombre = rs.getString("NOMBRE_COMPANIA");
-			String representante = rs.getString("REPRESENTANTE_COMPANIA");
-			String pais = rs.getString("PAIS_COMPANIA");
-			String web = rs.getString("WEB_COMPANIA");
-			String passwordQ = rs.getString("PASSWORD_COMPANIA");
-			Date llegada = rs.getDate("LLEGADA_COMPANIA");
-			Date salida = rs.getDate("SALIDA_COMPANIA");
+			int id = Integer.parseInt(rs.getString("ID"));
+			String nitQ = rs.getString("NIT");
+			String nombre = rs.getString("NOMBRE");
+			String representante = rs.getString("REPRESENTANTE");
+			String pais = rs.getString("PAIS");
+			String web = rs.getString("WEB");
+			String passwordQ = rs.getString("PASSWORD");
+			Date llegada = rs.getDate("LLEGADA");
+			Date salida = rs.getDate("SALIDA");
 			
 			compania = new Compania(id, nitQ, nombre, representante, pais, web, passwordQ, llegada, salida);
+		}
+
+		return compania;
+	}
+	
+	public boolean existeCompania(int idCompania) throws SQLException, Exception {
+		return searchCompaniaById(idCompania) != null;
+	}
+	
+	/**
+	 * Método que busca el/los videos con el nombre que entra como parámetro.
+	 * @param name - Nombre de el/los videos a buscar
+	 * @return ArrayList con los videos encontrados
+	 * @throws SQLException - Cualquier error que la base de datos arroje.
+	 * @throws Exception - Cualquier error que no corresponda a la base de datos
+	 */
+	public Compania searchCompaniaById(int id) throws SQLException, Exception {
+		Compania compania = null;
+
+		String query = "SELECT * FROM ISIS2304B031710.COMPANIAS WHERE ID = ?";
+
+		PreparedStatement prepStmt = conn.prepareStatement(query);
+		prepStmt.setInt(1, id);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		if (rs.next()) {
+			int idQ = Integer.parseInt(rs.getString("ID"));
+			String nitQ = rs.getString("NIT");
+			String nombre = rs.getString("NOMBRE");
+			String representante = rs.getString("REPRESENTANTE");
+			String pais = rs.getString("PAIS");
+			String web = rs.getString("WEB");
+			String passwordQ = rs.getString("PASSWORD");
+			Date llegada = rs.getDate("LLEGADA");
+			Date salida = rs.getDate("SALIDA");
+			
+			compania = new Compania(idQ, nitQ, nombre, representante, pais, web, passwordQ, llegada, salida);
 		}
 
 		return compania;
@@ -136,15 +174,15 @@ public class DAOTablaCompanias {
 	public void updateCompania(Compania compania) throws SQLException {
 		// TODO Auto-generated method stub
 		String updateSTAFF = "UPDATE ISIS2304B031710.COMPANIAS "
-				+ "SET NIT_COMPANIA = ?, "
-				+ "NOMBRE_COMPANIA = ?, "
-				+ "REPRESENTANTE_COMPANIA = ?, "
-				+ "PAIS_COMPANIA = ?, "
-				+ "WEB_COMPANIA = ?, "
-				+ "PASSWORD_COMPANIA = ?, "
-				+ "LLEGADA_COMPANIA = ?, "
-				+ "SALIDA_COMPANIA = ? "
-				+ "WHERE ID_COMPANIA = ?";
+				+ "SET NIT = ?, "
+				+ "NOMBRE = ?, "
+				+ "REPRESENTANTE = ?, "
+				+ "PAIS = ?, "
+				+ "WEB = ?, "
+				+ "PASSWORD = ?, "
+				+ "LLEGADA = ?, "
+				+ "SALIDA = ? "
+				+ "WHERE ID = ?";
 		PreparedStatement prepStmt = conn.prepareStatement(updateSTAFF);
 		prepStmt.setString(1, compania.getNit());
 		prepStmt.setString(2, compania.getNombre());
@@ -175,11 +213,39 @@ public class DAOTablaCompanias {
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
 	public void deleteCompania(Compania compania) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE ISIS2304B031710.COMPANIAS WHERE ID_COMPANIA = ?";
+		String deleteSTAFF = "DELETE ISIS2304B031710.COMPANIAS WHERE ID = ?";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
 		presStmt.setInt(1, compania.getId());
 		recursos.add(presStmt);
 		presStmt.executeQuery();
 	}
 
+	public List<Compania> searchCompaniasDeEspectaculo(int idEspectaculo) throws SQLException {
+		List<Compania> companias = new ArrayList<Compania>();
+
+		String queryCompaniasDeEspectaculo = "SELECT C.ID, C.NIT, C.NOMBRE, C.REPRESENTANTE, C.PAIS, C.WEB, C.PASSWORD, C.LLEGADA, C.SALIDA"
+				+ " FROM ISIS2304B031710.COMPANIA_ESPECTACULO CE INNER JOIN ISIS2304B031710.COMPANIAS C"
+				+ " ON CE.ID_COMPANIA = C.ID" + " WHERE CE.ID_ESPECTACULO = ?";
+		PreparedStatement prepStmt = conn.prepareStatement(queryCompaniasDeEspectaculo);
+		prepStmt.setInt(1, idEspectaculo);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int idC = Integer.parseInt(rs.getString("ID"));
+			String nitC = rs.getString("NIT");
+			String nombreC = rs.getString("NOMBRE");
+			String respresentanteC = rs.getString("REPRESENTANTE");
+			String paisC = rs.getString("PAIS");
+			String webC = rs.getString("WEB");
+			String passwordC = rs.getString("PASSWORD");
+			Date llegadaC = rs.getDate("LLEGADA");
+			Date salidaC = rs.getDate("SALIDA");
+			
+			Compania compania = new Compania(idC, nitC, nombreC, respresentanteC, paisC, webC, passwordC, llegadaC, salidaC);
+			companias.add(compania);
+		}
+		
+		return companias;
+	}
 }

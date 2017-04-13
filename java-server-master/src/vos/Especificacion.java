@@ -6,21 +6,21 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author ja.bermudez10
  *
  */
-public class Spec {
+public class Especificacion {
 	
 	@JsonProperty(value = "id")
 	private int id;
 	
-	@JsonProperty(value = "spec")
-	private String spec;
+	@JsonProperty(value = "especificacion")
+	private String especificacion;
 
 	/**
 	 * @param id
 	 * @param spec
 	 */
-	public Spec(int id, String spec) {
+	public Especificacion(@JsonProperty(value = "id") int id, @JsonProperty(value = "especificacion") String especificacion) {
 		this.id = id;
-		this.spec = spec;
+		this.especificacion = especificacion;
 	}
 
 	/**
@@ -40,15 +40,15 @@ public class Spec {
 	/**
 	 * @return the spec
 	 */
-	public String getSpec() {
-		return spec;
+	public String getEspecificacion() {
+		return especificacion;
 	}
 
 	/**
 	 * @param spec the spec to set
 	 */
-	public void setSpec(String spec) {
-		this.spec = spec;
+	public void setEspecificacion(String especificacion) {
+		this.especificacion = especificacion;
 	}
 	
 }

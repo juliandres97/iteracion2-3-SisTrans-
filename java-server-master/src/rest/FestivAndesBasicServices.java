@@ -53,7 +53,7 @@ public class FestivAndesBasicServices {
 	 *            - miembro a agregar
 	 * @return Json con el miembro que agrego o Json con el error que se produjo
 	 */
-	@PUT
+	@POST
 	@Path("/crearmiembro")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -101,7 +101,7 @@ public class FestivAndesBasicServices {
 	 * @return Json con el miembro que actualizo o Json con el error que se
 	 *         produjo
 	 */
-	@POST
+	@PUT
 	@Path("/actmiembro")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

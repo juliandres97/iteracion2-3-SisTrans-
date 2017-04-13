@@ -62,47 +62,80 @@ public class DAOTablaFunciones {
 	 *            agregado el video a la base de datos en la transaction actual.
 	 *            pendiente que el video master haga commit para que el video
 	 *            baje a la base de datos.
-	 * @throws SQLException
-	 *             - Cualquier error que la base de datos arroje. No pudo
-	 *             agregar el video a la base de datos
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addFuncion(Funcion funcion) throws SQLException {
+	public void addFuncion(Funcion funcion) throws Exception {
 		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.FUNCIONES VALUES (?,?,?)";
-		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
+		String insertIntoFUNCIONES = "INSERT INTO ISIS2304B031710.FUNCIONES VALUES (?,?,?,?)";
+		PreparedStatement prepStmt = conn.prepareStatement(insertIntoFUNCIONES);
+		
 		prepStmt.setInt(1, funcion.getId());
 		prepStmt.setInt(2, funcion.getIdEspectaculo());
-		prepStmt.setDate(3, funcion.getFechaRealizacion());
+		prepStmt.setInt(3, funcion.getIdSitio());
+		prepStmt.setDate(4, funcion.getFechaRealizacion());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
 
+//	private Espectaculo existeEspectaculo(int idEspectaculo) throws Exception {
+//		DAOTablaEspectaculos daoEspectaculo = new DAOTablaEspectaculos();
+//		Espectaculo espectaculo = null;
+//
+//		try {
+//			espectaculo = daoEspectaculo.searchById(idEspectaculo);
+//		} catch (SQLException e) {
+//			System.err.println("SQLException:" + e.getMessage());
+//			e.printStackTrace();
+//			throw e;
+//		} catch (Exception e) {
+//			System.err.println("GeneralException:" + e.getMessage());
+//			e.printStackTrace();
+//			throw e;
+//		} finally {
+//			try {
+//				daoEspectaculo.cerrarRecursos();
+//				if (this.conn != null)
+//					this.conn.close();
+//			} catch (SQLException exception) {
+//				System.err.println("SQLException closing resources:" + exception.getMessage());
+//				exception.printStackTrace();
+//				throw exception;
+//			}
+//		}
+//
+//		return espectaculo;
+//	}
+
 	/**
 	 * Método que busca el/los videos con el nombre que entra como parámetro.
-	 * @param name - Nombre de el/los videos a buscar
+	 * 
+	 * @param name
+	 *            - Nombre de el/los videos a buscar
 	 * @return ArrayList con los videos encontrados
-	 * @throws SQLException - Cualquier error que la base de datos arroje.
-	 * @throws Exception - Cualquier error que no corresponda a la base de datos
+	 * @throws SQLException
+	 *             - Cualquier error que la base de datos arroje.
+	 * @throws Exception
+	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public Funcion searchAdminById(int id) throws SQLException, Exception {
+	public Funcion searchFuncionByIdyIdEspectaculo(int id, int idEspectaculo) throws SQLException, Exception {
 		Funcion funcion = null;
 
-		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES"
-				+ "WHERE ID = ?";
+		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES WHERE (ID = ? AND ID_ESPECTACUL0 = ?)";
 
 		PreparedStatement prepStmt = conn.prepareStatement(query);
 		prepStmt.setInt(1, id);
+		prepStmt.setInt(2, idEspectaculo);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 
 		if (rs.next()) {
 			int idQ = Integer.parseInt(rs.getString("ID"));
-			int idEspectaculo = Integer.parseInt(rs.getString("ID_ESPECTACULO"));
+			int idEspectaculoQ = Integer.parseInt(rs.getString("ID_ESPECTACULO"));
 			Date fechaRealizacion = rs.getDate("DIA_REALIZACION");
-			
-			funcion = new Funcion(id, idEspectaculo, null, fechaRealizacion);
+			int idSitio = Integer.parseInt("ID_SITIO");
+
+			funcion = new Funcion(idQ, idEspectaculoQ, idSitio, fechaRealizacion);
 		}
 
 		return funcion;

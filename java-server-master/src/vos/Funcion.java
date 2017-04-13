@@ -1,35 +1,35 @@
 package vos;
 
 import java.sql.Date;
-import java.util.*;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import oracle.sql.*;
-
 public class Funcion {
-	
+
 	@JsonProperty(value = "id")
 	private int id;
 
 	@JsonProperty(value = "idEspectaculo")
 	private int idEspectaculo;
 
-	@JsonProperty(value = "sitios")
-	private List<Integer> sitios;
-	
+	@JsonProperty(value = "idSitio")
+	private int idSitio;
+
 	@JsonProperty(value = "fechaRealizacion")
 	private Date fechaRealizacion;
-	
+
 	/**
 	 * @param id
 	 * @param idEspectaculo
-	 * @param sitio
+	 * @param idSitio
 	 * @param fechaRealizacion
 	 */
-	public Funcion(int id, int idEspectaculo, Sitio sitio, Date fechaRealizacion) {
+	public Funcion(@JsonProperty(value = "id") int id, @JsonProperty(value = "idEspectaculo") int idEspectaculo,
+			@JsonProperty(value = "idSitio") int idSitio,
+			@JsonProperty(value = "fechaRealizacion") Date fechaRealizacion) {
 		this.id = id;
 		this.idEspectaculo = idEspectaculo;
+		this.idSitio = idSitio;
 		this.fechaRealizacion = fechaRealizacion;
 	}
 
@@ -41,7 +41,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -55,7 +56,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param idEspectaculo the idEspectaculo to set
+	 * @param idEspectaculo
+	 *            the idEspectaculo to set
 	 */
 	public void setIdEspectaculo(int idEspectaculo) {
 		this.idEspectaculo = idEspectaculo;
@@ -64,15 +66,16 @@ public class Funcion {
 	/**
 	 * @return the sitio
 	 */
-	public List<Integer> getSitio() {
-		return sitios;
+	public int getIdSitio() {
+		return idSitio;
 	}
 
 	/**
-	 * @param sitio the sitio to set
+	 * @param idSitio
+	 *            the sitio to set
 	 */
-	public void setSitio(List<Integer> sitios) {
-		this.sitios = sitios;
+	public void setIdSitio(int idSitio) {
+		this.idSitio = idSitio;
 	}
 
 	/**
@@ -83,10 +86,11 @@ public class Funcion {
 	}
 
 	/**
-	 * @param fechaRealizacion the fechaRealizacion to set
+	 * @param fechaRealizacion
+	 *            the fechaRealizacion to set
 	 */
 	public void setFechaRealizacion(Date fechaRealizacion) {
 		this.fechaRealizacion = fechaRealizacion;
 	}
-	
+
 }

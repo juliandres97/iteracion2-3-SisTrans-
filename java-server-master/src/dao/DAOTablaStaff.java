@@ -89,8 +89,7 @@ public class DAOTablaStaff {
 	public Staff searchAdminByDocIdPassword(String docId, String password) throws SQLException, Exception {
 		Staff staff = null;
 
-		String query = "SELECT * FROM ISIS2304B031710.STAFF "
-				+ "WHERE (DOC_ID_MIEMBRO = ?) AND (PASSWORD_MIEMBRO = ?) AND (ROL_MIEMBRO = 'administrador')";
+		String query = "SELECT * FROM ISIS2304B031710.STAFF WHERE (DOC_ID = ?) AND (PASSWORD = ?) AND (ROL = 'administrador')";
 
 		PreparedStatement prepStmt = conn.prepareStatement(query);
 		prepStmt.setString(1, docId);
@@ -99,12 +98,44 @@ public class DAOTablaStaff {
 		ResultSet rs = prepStmt.executeQuery();
 
 		if (rs.next()) {
-			int id = Integer.parseInt(rs.getString("ID_MIEMBRO"));
-			String docIdQ = rs.getString("DOC_ID_MIEMBRO");
-			String nombre = rs.getString("NOMBRE_MIEMBRO");
-			String passwordQ = rs.getString("PASSWORD_MIEMBRO");
-			String email = rs.getString("EMAIL_MIEMBRO");
-			String rol = rs.getString("ROL_MIEMBRO");
+			int id = Integer.parseInt(rs.getString("ID"));
+			String docIdQ = rs.getString("DOC_ID");
+			String nombre = rs.getString("NOMBRE");
+			String passwordQ = rs.getString("PASSWORD");
+			String email = rs.getString("EMAIL");
+			String rol = rs.getString("ROL");
+			
+			staff = new Staff(id, docIdQ, nombre, passwordQ, email, rol);
+		}
+
+		return staff;
+	}
+	
+	/**
+	 * Método que busca el/los videos con el nombre que entra como parámetro.
+	 * @param name - Nombre de el/los videos a buscar
+	 * @return ArrayList con los videos encontrados
+	 * @throws SQLException - Cualquier error que la base de datos arroje.
+	 * @throws Exception - Cualquier error que no corresponda a la base de datos
+	 */
+	public Staff searchOperarioByDocIdPassword(String docId, String password) throws SQLException, Exception {
+		Staff staff = null;
+
+		String query = "SELECT * FROM ISIS2304B031710.STAFF WHERE (DOC_ID = ?) AND (PASSWORD = ?) AND (ROL = 'operario')";
+
+		PreparedStatement prepStmt = conn.prepareStatement(query);
+		prepStmt.setString(1, docId);
+		prepStmt.setString(2, password);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		if (rs.next()) {
+			int id = Integer.parseInt(rs.getString("ID"));
+			String docIdQ = rs.getString("DOC_ID");
+			String nombre = rs.getString("NOMBRE");
+			String passwordQ = rs.getString("PASSWORD");
+			String email = rs.getString("EMAIL");
+			String rol = rs.getString("ROL");
 			
 			staff = new Staff(id, docIdQ, nombre, passwordQ, email, rol);
 		}
@@ -130,12 +161,12 @@ public class DAOTablaStaff {
 	public void updateStaff(Staff staff) throws SQLException {
 		// TODO Auto-generated method stub
 		String updateSTAFF = "UPDATE ISIS2304B031710.STAFF "
-				+ "SET DOC_ID_MIEMBRO = ?, "
-				+ "NOMBRE_MIEMBRO = ?,  "
-				+ "PASSWORD_MIEMBRO = ?, "
-				+ "EMAIL_MIEMBRO = ?, "
-				+ "ROL_MIEMBRO = ? "
-				+ "WHERE ID_MIEMBRO = ?";
+				+ "SET DOC_ID = ?, "
+				+ "NOMBRE = ?,  "
+				+ "PASSWORD = ?, "
+				+ "EMAIL = ?, "
+				+ "ROL = ? "
+				+ "WHERE ID = ?";
 		PreparedStatement prepStmt = conn.prepareStatement(updateSTAFF);
 		prepStmt.setString(1, staff.getDocId());
 		prepStmt.setString(2, staff.getNombre());
@@ -163,7 +194,7 @@ public class DAOTablaStaff {
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
 	public void deleteStaff(Staff staff) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE ISIS2304B031710.STAFF WHERE ID_MIEMBRO = ?";
+		String deleteSTAFF = "DELETE ISIS2304B031710.STAFF WHERE ID = ?";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
 		presStmt.setInt(1, staff.getId());
 		recursos.add(presStmt);

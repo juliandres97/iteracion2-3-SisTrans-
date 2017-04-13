@@ -90,26 +90,50 @@ public class DAOTablaClientes {
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public Cliente searchClienteByDocIdPassword(String docId, String password) throws SQLException, Exception {
+	public Cliente searchClientByDocIdPassword(String docIdUser, String password) throws SQLException, Exception {
 		Cliente cliente = null;
 
 		String query = "SELECT * FROM ISIS2304B031710.CLIENTES WHERE (DOC_ID = ?) AND (PASSWORD = ?)";
 
 		PreparedStatement prepStmt = conn.prepareStatement(query);
-		prepStmt.setString(1, docId);
+		prepStmt.setString(1, docIdUser);
 		prepStmt.setString(2, password);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 
 		if (rs.next()) {
-			int id = Integer.parseInt(rs.getString("ID_CLIENTE"));
-			String docIdQ = rs.getString("DOC_ID_CLIENTE");
-			String nombre = rs.getString("NOMBRE_CLIENTE");
-			String passwordQ = rs.getString("PASSWORD_CLIENTE");
-			String email = rs.getString("EMAIL_CLIENTE");
-			String address = rs.getString("ADDRESS_CLIENTE");
+			int id = Integer.parseInt(rs.getString("ID"));
+			String docIdQ = rs.getString("DOC_ID");
+			String nombre = rs.getString("NOMBRE");
+			String passwordQ = rs.getString("PASSWORD");
+			String email = rs.getString("EMAIL");
+			String address = rs.getString("ADDRESS");
 
 			cliente = new Cliente(id, docIdQ, nombre, passwordQ, email, address);
+		}
+
+		return cliente;
+	}
+	
+	public Cliente searchClienteById(int id) throws SQLException, Exception {
+		Cliente cliente = null;
+
+		String query = "SELECT * FROM ISIS2304B031710.CLIENTES WHERE ID = ?";
+
+		PreparedStatement prepStmt = conn.prepareStatement(query);
+		prepStmt.setInt(1, id);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		if (rs.next()) {
+			int idQ = Integer.parseInt(rs.getString("ID"));
+			String docIdQ = rs.getString("DOC_ID");
+			String nombre = rs.getString("NOMBRE");
+			String passwordQ = rs.getString("PASSWORD");
+			String email = rs.getString("EMAIL");
+			String address = rs.getString("ADDRESS");
+
+			cliente = new Cliente(idQ, docIdQ, nombre, passwordQ, email, address);
 		}
 
 		return cliente;
@@ -133,12 +157,12 @@ public class DAOTablaClientes {
 	public void updateCliente(Cliente cliente) throws SQLException {
 		// TODO Auto-generated method stub
 		String updateSTAFF = "UPDATE ISIS2304B031710.CLIENTES "
-				+ "SET DOC_ID_CLIENTE = ?, "
-				+ "NOMBRE_CLIENTE = ?, "
-				+ "PASSWORD_CLIENTE = ?, "
-				+ "EMAIL_CLIENTE = ?, "
-				+ "ROL_CLIENTE = ? "
-				+ "WHERE ID_CLIENTE = ?";
+				+ "SET DOC_ID = ?, "
+				+ "NOMBRE = ?, "
+				+ "PASSWORD = ?, "
+				+ "EMAIL = ?, "
+				+ "ROL = ? "
+				+ "WHERE ID = ?";
 		PreparedStatement prepStmt = conn.prepareStatement(updateSTAFF);
 		prepStmt.setString(1, cliente.getDocId());
 		prepStmt.setString(2, cliente.getNombre());
@@ -166,7 +190,7 @@ public class DAOTablaClientes {
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
 	public void deleteCliente(Cliente cliente) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE ISIS2304B031710.CLIENTES WHERE ID_CLIENTE = ?";
+		String deleteSTAFF = "DELETE ISIS2304B031710.CLIENTES WHERE ID = ?";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
 		presStmt.setInt(1, cliente.getId());
 		recursos.add(presStmt);

@@ -5,12 +5,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 import tm.FestivAndesMaster;
-import vos.Cliente;
-import vos.ClienteList;
-import vos.Compania;
-import vos.CompaniaList;
-import vos.Espectaculo;
-import vos.Staff;
+import vos.*;
 
 /**
  * @author Julián
@@ -30,7 +25,7 @@ public class FestivAndesAdminServices {
 	/**
 	 * Atributo que indica si un administrador ha iniciado sesion o no.
 	 */
-	private static boolean sessionStarted = false;
+	private static boolean staffSessionStarted = false;
 
 	/**
 	 * Metodo que retorna el path de la carpeta WEB-INF/ConnectionData en el
@@ -63,7 +58,7 @@ public class FestivAndesAdminServices {
 	 * @return
 	 */
 	@GET
-	@Path("/auth/user={docIdUser}/psswrd={userPssWrd}")
+	@Path("/auth/staff={docIdUser}/psswrd={userPssWrd}")
 	public Response auth(@PathParam("docIdUser") String docIdUser, @PathParam("userPssWrd") String userPssWrd) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 		Staff staff = null;
@@ -71,11 +66,11 @@ public class FestivAndesAdminServices {
 			staff = tm.searchAdminByDocIdPassword(docIdUser, userPssWrd);
 
 			if (staff != null) {
-				sessionStarted = true;
+				staffSessionStarted = true;
 				return Response.status(200)
-						.entity(doJSONMessage("Bienvenido", staff.getNombre() + "(" + staff.getRol() + ")")).build();
+						.entity(doJSONMessage("Bienvenido", staff.getNombre() + " (" + staff.getRol() + ")")).build();
 			} else {
-				sessionStarted = false;
+				staffSessionStarted = false;
 				return Response.status(404).entity(doJSONMessage("NOT FOUND", "Recurso no encontrado.")).build();
 			}
 		} catch (Exception e) {
@@ -92,14 +87,14 @@ public class FestivAndesAdminServices {
 	 *            - cliente a agregar
 	 * @return Json con el cliente que agrego o Json con el error que se produjo
 	 */
-	@PUT
+	@POST
 	@Path("/crearcliente")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response crearCliente(Cliente cliente) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
 				tm.addCliente(cliente);
 			} catch (Exception e) {
@@ -121,14 +116,14 @@ public class FestivAndesAdminServices {
 	 * @return Json con los clientes que agrego o Json con el error que se
 	 *         produjo
 	 */
-	@PUT
+	@POST
 	@Path("/crearclientes")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response crearclientes(ClienteList clientes) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 		
-		if (sessionStarted) {			
+		if (staffSessionStarted) {			
 			try {
 				tm.addClientes(clientes);
 			} catch (Exception e) {
@@ -151,14 +146,14 @@ public class FestivAndesAdminServices {
 	 * @return Json con el cliente que actualizo o Json con el error que se
 	 *         produjo
 	 */
-	@POST
+	@PUT
 	@Path("/actcliente")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateCliente(Cliente cliente) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
 				tm.updateCliente(cliente);
 			} catch (Exception e) {
@@ -187,7 +182,7 @@ public class FestivAndesAdminServices {
 	public Response deleteCliente(Cliente cliente) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
 				tm.deleteCliente(cliente);
 			} catch (Exception e) {
@@ -208,14 +203,14 @@ public class FestivAndesAdminServices {
 	 *            - compania a agregar
 	 * @return Json con el compania que agrego o Json con el error que se produjo
 	 */
-	@PUT
+	@POST
 	@Path("/crearcompania")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response crearCompania(Compania compania) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
 				tm.addCompania(compania);
 			} catch (Exception e) {
@@ -237,14 +232,14 @@ public class FestivAndesAdminServices {
 	 * @return Json con los companias que agrego o Json con el error que se
 	 *         produjo
 	 */
-	@PUT
+	@POST
 	@Path("/crearcompanias")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response crearCompanias(CompaniaList companias) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 		
-		if (sessionStarted) {			
+		if (staffSessionStarted) {			
 			try {
 				tm.addCompanias(companias);
 			} catch (Exception e) {
@@ -267,14 +262,14 @@ public class FestivAndesAdminServices {
 	 * @return Json con el compania que actualizo o Json con el error que se
 	 *         produjo
 	 */
-	@POST
+	@PUT
 	@Path("/actcompania")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateCompania(Compania compania) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
 				tm.updateCompania(compania);
 			} catch (Exception e) {
@@ -287,19 +282,38 @@ public class FestivAndesAdminServices {
 	}
 	
 	@POST
+	@Path("/crearespectaculo")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response crearEspectaculo(Espectaculo espectaculo) {
+		FestivAndesMaster tm = new FestivAndesMaster(getPath());
+	
+		if (staffSessionStarted) {
+			try {
+				tm.addEspectaculo(espectaculo);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(espectaculo).build();
+		} else {
+			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+		}
+	}
+
+	@PUT
 	@Path("/actespectaculo")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateEspectaculo(Espectaculo espectaculo) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
 				tm.updateEspectaculo(espectaculo);
 			} catch (Exception e) {
 				return Response.status(500).entity(doErrorMessage(e)).build();
 			}
-			return Response.status(200).entity(compania).build();
+			return Response.status(200).entity(espectaculo).build();
 		} else {
 			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
 		}
@@ -322,7 +336,7 @@ public class FestivAndesAdminServices {
 	public Response deleteCompania(Compania compania) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
 				tm.deleteCompania(compania);
 			} catch (Exception e) {
@@ -334,23 +348,78 @@ public class FestivAndesAdminServices {
 		}
 	}
 	
-	@PUT
-	@Path("/crearEspectaculo")
+	/**
+	 * Metodo que expone servicio REST usando PUT que agrega el sitio que
+	 * recibe en Json <b>URL: </b>
+	 * http://(IP):(Puerto)/FestivAndes/rest/sitio/crearsitio
+	 * 
+	 * @param sitio
+	 *            - sitio a agregar
+	 * @return Json con el sitio que agrego o Json con el error que se produjo
+	 */
+	@POST
+	@Path("/crearsitio")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response crearEspectaculo(Espectaculo espectaculo) {
+	public Response crearSitio(Sitio sitio) {
 		FestivAndesMaster tm = new FestivAndesMaster(getPath());
 
-		if (sessionStarted) {
+		if (staffSessionStarted) {
 			try {
-//				tm.addEspectaculo(espectaculo);
+				tm.addSitio(sitio);
 			} catch (Exception e) {
 				return Response.status(500).entity(doErrorMessage(e)).build();
 			}
-			return Response.status(200).entity(espectaculo).build();
+			return Response.status(200).entity(sitio).build();
 		} else {
 			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
 		}
 	}
 	
+	/**
+	 * Metodo que expone servicio REST usando PUT que agrega el funcion que
+	 * recibe en Json <b>URL: </b>
+	 * http://(IP):(Puerto)/FestivAndes/rest/funcion/crearfuncion
+	 * 
+	 * @param funcion
+	 *            - funcion a agregar
+	 * @return Json con el funcion que agrego o Json con el error que se produjo
+	 */
+	@POST
+	@Path("/crearfuncion")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response crearFuncion(Funcion funcion) {
+		FestivAndesMaster tm = new FestivAndesMaster(getPath());
+
+		if (staffSessionStarted) {
+			try {
+				tm.addFuncion(funcion);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(funcion).build();
+		} else {
+			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+		}
+	}
+	
+//	@GET
+//	@Path("/clientemasespecs")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response getClienteMasEspectaculos() {
+//		FestivAndesMaster tm = new FestivAndesMaster(getPath());
+//		Cliente c = null;
+//
+//		if (staffSessionStarted) {
+//			try {
+//				c = tm.getClienteMasEspectaculos();
+//				return Response.status(200).entity(c).build();
+//			} catch (Exception e) {
+//				return Response.status(500).entity(doErrorMessage(e)).build();
+//			}
+//		} else {
+//			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+//		}
+//	}
 }

@@ -5,38 +5,48 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Sitio {
-	
+
 	@JsonProperty(value = "id")
 	private int id;
-	
+
+	@JsonProperty(value = "nombre")
+	private String nombre;
+
 	@JsonProperty(value = "tipoSitio")
-	private String tipo;
-	
+	private String tipoSitio;
+
 	@JsonProperty(value = "aforo")
 	private int aforo;
-	
+
 	@JsonProperty(value = "localidades")
 	private List<Localidad> localidades;
-	
+
 	@JsonProperty(value = "especificaciones")
-	private List<Spec> especificaciones;
-	
-	@JsonProperty(value = "tipoSilleteria")
-	private String tipoSilleteria;
+	private List<Especificacion> especificaciones;
+
+	@JsonProperty(value = "silleteria")
+	private String silleteria;
 
 	/**
 	 * @param id
-	 * @param tipo
+	 * @param tipoSitio
 	 * @param aforo
+	 * @param localidades
 	 * @param especificaciones
-	 * @param tipoSilleteria
+	 * @param silleteria
 	 */
-	public Sitio(int id, String tipo, int aforo, List<Spec> especificaciones, String tipoSilleteria) {
+	public Sitio(@JsonProperty(value = "id") int id, @JsonProperty(value = "nombre") String nombre,
+			@JsonProperty(value = "tipoSitio") String tipoSitio, @JsonProperty(value = "aforo") int aforo,
+			@JsonProperty(value = "localidades") List<Localidad> localidades,
+			@JsonProperty(value = "especificaciones") List<Especificacion> especificaciones,
+			@JsonProperty(value = "silleteria") String silleteria) {
 		this.id = id;
-		this.tipo = tipo;
+		this.nombre = nombre;
+		this.tipoSitio = tipoSitio;
 		this.aforo = aforo;
 		this.especificaciones = especificaciones;
-		this.tipoSilleteria = tipoSilleteria;
+		this.localidades = localidades;
+		this.silleteria = silleteria;
 	}
 
 	/**
@@ -47,24 +57,41 @@ public class Sitio {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * @return the tipo
+	 * @return the nombre
 	 */
-	public String getTipo() {
-		return tipo;
+	public String getNombre() {
+		return nombre;
 	}
 
 	/**
-	 * @param tipo the tipoSitio to set
+	 * @param nombre
+	 *            the nombre to set
 	 */
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	/**
+	 * @return the tipoSitio
+	 */
+	public String getTipoSitio() {
+		return tipoSitio;
+	}
+
+	/**
+	 * @param sitio
+	 *            the tipoSitio to set
+	 */
+	public void setTipoSitio(String sitio) {
+		this.tipoSitio = sitio;
 	}
 
 	/**
@@ -75,39 +102,56 @@ public class Sitio {
 	}
 
 	/**
-	 * @param aforo the aforo to set
+	 * @param aforo
+	 *            the aforo to set
 	 */
 	public void setAforo(int aforo) {
 		this.aforo = aforo;
 	}
 
 	/**
+	 * @return the localidades
+	 */
+	public List<Localidad> getLocalidades() {
+		return localidades;
+	}
+
+	/**
+	 * @param localidades
+	 *            the localidades to set
+	 */
+	public void setLocalidades(List<Localidad> localidades) {
+		this.localidades = localidades;
+	}
+
+	/**
 	 * @return the especificaciones
 	 */
-	public List<Spec> getEspecificaciones() {
+	public List<Especificacion> getEspecificaciones() {
 		return especificaciones;
 	}
 
 	/**
-	 * @param especificaciones the especificaciones to set
+	 * @param especificaciones
+	 *            the especificaciones to set
 	 */
-	public void setEspecificaciones(List<Spec> especificaciones) {
+	public void setEspecificaciones(List<Especificacion> especificaciones) {
 		this.especificaciones = especificaciones;
 	}
 
 	/**
-	 * @return the tipoSilleteria
+	 * @return the silleteria
 	 */
-	public String getTipoSilleteria() {
-		return tipoSilleteria;
+	public String getSilleteria() {
+		return silleteria;
 	}
 
 	/**
-	 * @param tipoSilleteria the tipoSilleteria to set
+	 * @param silleteria
+	 *            the silleteria to set
 	 */
-	public void setTipoSilleteria(String tipoSilleteria) {
-		this.tipoSilleteria = tipoSilleteria;
+	public void setSilleteria(String silleteria) {
+		this.silleteria = silleteria;
 	}
-	
-	
+
 }

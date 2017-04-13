@@ -12,7 +12,7 @@ public class ClienteList {
 	/**
 	 * @param clientes
 	 */
-	public ClienteList(List<Cliente> clientes) {
+	public ClienteList(@JsonProperty(value = "clientes") List<Cliente> clientes) {
 		this.clientes = clientes;
 	}
 

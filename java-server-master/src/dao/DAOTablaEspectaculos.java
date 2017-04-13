@@ -3,7 +3,7 @@ package dao;
 import java.sql.*;
 import java.util.*;
 
-import vos.Cliente;
+import vos.Compania;
 import vos.Espectaculo;
 
 public class DAOTablaEspectaculos {
@@ -60,24 +60,20 @@ public class DAOTablaEspectaculos {
 	 *            agregado el video a la base de datos en la transaction actual.
 	 *            pendiente que el video master haga commit para que el video
 	 *            baje a la base de datos.
-	 * @throws SQLException
-	 *             - Cualquier error que la base de datos arroje. No pudo
-	 *             agregar el video a la base de datos
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addEspectaculo(Espectaculo espectaculo) throws SQLException {
+	public void addEspectaculo(Espectaculo espectaculo) throws SQLException, Exception {
 		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.ESPECTACULOS VALUES (?,?,?,?,?,?,?,?)";
-		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
-//		prepStmt.setInt(1, espectaculo.getId());
-//		prepStmt.setString(2, espectaculo.getNombre());
-//		prepStmt.setInt(3, espectaculo.getDuracion());
-//		prepStmt.setString(4, espectaculo.getIdioma());
-//		prepStmt.setInt(5, espectaculo.getCosto());
-//		prepStmt.setString(6, espectaculo.getTraductor());
-//		prepStmt.setString(5, espectaculo.getDescripcion());
-//		prepStmt.setString(6, espectaculo.getPublicoObj());
+		String insertIntoESPECTACULO = "INSERT INTO ISIS2304B031710.ESPECTACULOS VALUES (?,?,?,?,?,?,?)";
+		PreparedStatement prepStmt = conn.prepareStatement(insertIntoESPECTACULO);
+		prepStmt.setInt(1, espectaculo.getId());
+		prepStmt.setString(2, espectaculo.getNombre());
+		prepStmt.setInt(3, espectaculo.getDuracion());
+		prepStmt.setString(4, espectaculo.getIdioma());
+		prepStmt.setString(5, espectaculo.getTraductor());
+		prepStmt.setString(6, espectaculo.getDescripcion());
+		prepStmt.setString(7, espectaculo.getPublicoObj());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -103,14 +99,14 @@ public class DAOTablaEspectaculos {
 				+ "IDIOMA = ?, " + "COSTO = ?, " + "TRADUCTOR = ? " + "DESCRIPCION = ?" + "PUBLICOOBJ = ? "
 				+ "WHERE ID = ?";
 		PreparedStatement prepStmt = conn.prepareStatement(updateSTAFF);
-//		prepStmt.setString(1, espectaculo.getNombre());
-//		prepStmt.setInt(2, espectaculo.getDuracion());
-//		prepStmt.setString(3, espectaculo.getIdioma());
-//		prepStmt.setInt(4, espectaculo.getCosto());
-//		prepStmt.setString(5, espectaculo.getTraductor());
-//		prepStmt.setString(6, espectaculo.getDescripcion());
-//		prepStmt.setString(7, espectaculo.getPublicoObj());
-//		prepStmt.setInt(8, espectaculo.getId());
+		// prepStmt.setString(1, espectaculo.getNombre());
+		// prepStmt.setInt(2, espectaculo.getDuracion());
+		// prepStmt.setString(3, espectaculo.getIdioma());
+		// prepStmt.setInt(4, espectaculo.getCosto());
+		// prepStmt.setString(5, espectaculo.getTraductor());
+		// prepStmt.setString(6, espectaculo.getDescripcion());
+		// prepStmt.setString(7, espectaculo.getPublicoObj());
+		// prepStmt.setInt(8, espectaculo.getId());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -133,9 +129,36 @@ public class DAOTablaEspectaculos {
 	public void deleteEspectaculo(Espectaculo espectaculo) throws SQLException, Exception {
 		String deleteSTAFF = "DELETE ISIS2304B031710.ESPECTACULOS WHERE ID = ?";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
-//		presStmt.setInt(1, espectaculo.getId());
+		// presStmt.setInt(1, espectaculo.getId());
 		recursos.add(presStmt);
 		presStmt.executeQuery();
 	}
 
+	public Espectaculo searchById(int id) throws SQLException, Exception {
+		Espectaculo espectaculo = null;
+
+		String query = "SELECT * FROM ISIS2304B031710.ESPECTACULOS WHERE ID = ?";
+
+		PreparedStatement prepStmt = conn.prepareStatement(query);
+		prepStmt.setInt(1, id);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		DAOTablaCompanias daoCompanias = new DAOTablaCompanias();
+		List<Compania> companias = daoCompanias.searchCompaniasDeEspectaculo(id);
+
+		if (rs.next()) {
+			int idQ = Integer.parseInt(rs.getString("ID"));
+			String nombre = rs.getString("NOMBRE");
+			int duracion = Integer.parseInt(rs.getString("DURACION"));
+			String idioma = rs.getString("IDIOMA");
+			String traductor = rs.getString("TRADUCTOR");
+			String descripcion = rs.getString("DESCRIPCION");
+			String publicoObj = rs.getString("PUBLICOOBJ");
+
+			espectaculo = new Espectaculo(idQ, nombre, duracion, idioma, traductor, descripcion, publicoObj, companias);
+		}
+
+		return espectaculo;
+	}
 }
