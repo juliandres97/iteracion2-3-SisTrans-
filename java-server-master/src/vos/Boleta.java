@@ -24,11 +24,11 @@ public class Boleta {
 	@JsonProperty(value = "idSitio")
 	private int idSitio;
 
-	@JsonProperty(value = "valor")
-	private int valor;
-
 	@JsonProperty(value = "abono")
 	private int idAbono;
+
+	@JsonProperty(value = "valor")
+	private int valor;
 
 	/**
 	 * @param id
@@ -124,7 +124,7 @@ public class Boleta {
 	}
 
 	public int getValorConDescuento() {
-		return (int) (valor * 0.8);
+		return (int) ((valor)*(0.8));
 	}
 
 	/**
