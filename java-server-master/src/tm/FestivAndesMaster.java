@@ -143,14 +143,15 @@ public class FestivAndesMaster {
 	public void addMiembrosStaff(StaffList staffList) throws Exception {
 		// TODO Auto-generated method stub
 		DAOTablaStaff daoStaff = new DAOTablaStaff();
-		try 
-		{
+		try {
 			// Transaccion
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
 			daoStaff.setConn(conn);
-			for(Staff staff : staffList.getStaffList())
+
+			for (Staff staff : staffList.getStaffList())
 				daoStaff.addStaff(staff);
+
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -165,7 +166,7 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoStaff.cerrarRecursos();
-				if(this.conn!=null)
+				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
 				System.err.println("SQLException closing resources:" + exception.getMessage());
@@ -382,13 +383,12 @@ public class FestivAndesMaster {
 	public void addClientes(ClienteList clienteList) throws Exception {
 		// TODO Auto-generated method stub
 		DAOTablaClientes daoCliente = new DAOTablaClientes();
-		try 
-		{
+		try {
 			// Transaccion
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
 			daoCliente.setConn(conn);
-			for(Cliente cliente : clienteList.getClientes())
+			for (Cliente cliente : clienteList.getClientes())
 				daoCliente.addCliente(cliente);
 			conn.commit();
 		} catch (SQLException e) {
@@ -404,7 +404,7 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoCliente.cerrarRecursos();
-				if(this.conn!=null)
+				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
 				System.err.println("SQLException closing resources:" + exception.getMessage());
@@ -578,13 +578,12 @@ public class FestivAndesMaster {
 	public void addCompanias(CompaniaList companiaList) throws Exception {
 		// TODO Auto-generated method stub
 		DAOTablaCompanias daoCompania = new DAOTablaCompanias();
-		try 
-		{
+		try {
 			// Transaccion
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
 			daoCompania.setConn(conn);
-			for(Compania compania : companiaList.getCompanias())
+			for (Compania compania : companiaList.getCompanias())
 				daoCompania.addCompania(compania);
 			conn.commit();
 		} catch (SQLException e) {
@@ -600,7 +599,7 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoCompania.cerrarRecursos();
-				if(this.conn!=null)
+				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
 				System.err.println("SQLException closing resources:" + exception.getMessage());
@@ -611,9 +610,9 @@ public class FestivAndesMaster {
 	}
 
 	/**
-	 * Metodo que modela la transaccion que modifica un miembro del Compania a la
-	 * base de datos. <b> post: </b> se ha modificado el miebro que entra como
-	 * parametro
+	 * Metodo que modela la transaccion que modifica un miembro del Compania a
+	 * la base de datos. <b> post: </b> se ha modificado el miebro que entra
+	 * como parametro
 	 * 
 	 * @param compania
 	 *            - el miembro a modificar. miembro != null
@@ -660,7 +659,7 @@ public class FestivAndesMaster {
 	 * @throws Exception
 	 *             - cualquier error que se genere durante la transacciÃ³n
 	 */
-	public Compania searchCompaniaByDocIdPassword(String Nit, String password) throws Exception {
+	public Compania searchCompaniaByNitPassword(String Nit, String password) throws Exception {
 		Compania compania = null;
 		DAOTablaCompanias daoCompania = new DAOTablaCompanias();
 
@@ -732,9 +731,9 @@ public class FestivAndesMaster {
 	}
 
 	/**
-	 * Metodo que modela la transaccion que agrega un espectaculo del Espectaculo a la
-	 * base de datos. <b> post: </b> se ha agregado el miebro que entra como
-	 * parametro
+	 * Metodo que modela la transaccion que agrega un espectaculo del
+	 * Espectaculo a la base de datos. <b> post: </b> se ha agregado el miebro
+	 * que entra como parametro
 	 * 
 	 * @param espectaculo
 	 *            - el espectaculo a agregar. espectaculo != null
@@ -759,19 +758,17 @@ public class FestivAndesMaster {
 
 			// Chequeo de existencia del total de companias
 			int totalCompaniasNoExistentes = 0;
-			
+
 			for (Compania compania : espectaculo.getCompanias()) {
 				if (!daoTablaCompanias.existeCompania(compania.getId()))
 					totalCompaniasNoExistentes++;
-				else if(daoTablaCompanias.existeCompania(compania.getId()))
+				else if (daoTablaCompanias.existeCompania(compania.getId()))
 					daoCompaniaEspectaculo.addCompaniaToEspectaculo(compania.getId(), espectaculo.getId());
 			}
 
-			//Subtransaccion 2: asociacion companias a espectaculo
-			if (espectaculo.getCompanias().isEmpty() ||
-					espectaculo.getCompanias() == null ||
-					espectaculo.getCompanias().size() == totalCompaniasNoExistentes)
-			{
+			// Subtransaccion 2: asociacion companias a espectaculo
+			if (espectaculo.getCompanias().isEmpty() || espectaculo.getCompanias() == null
+					|| espectaculo.getCompanias().size() == totalCompaniasNoExistentes) {
 				conn.rollback();
 				throw new Exception("Las compañias deben existir al momento de crear un espectáculo.");
 			}
@@ -788,6 +785,8 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoEspectaculo.cerrarRecursos();
+				daoCompaniaEspectaculo.cerrarRecursos();
+				daoTablaCompanias.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -798,7 +797,7 @@ public class FestivAndesMaster {
 		}
 	}
 
-	public void updateEspectaculo(Espectaculo espectaculo) throws Exception{
+	public void updateEspectaculo(Espectaculo espectaculo) throws Exception {
 		DAOTablaEspectaculos daoCliente = new DAOTablaEspectaculos();
 		try {
 			// Transaccion
@@ -871,28 +870,27 @@ public class FestivAndesMaster {
 			daoSitioLocalidad.setConn(this.conn);
 			daoSitioEspec.setConn(this.conn);
 
-			//Subtransaccion 1
+			// Subtransaccion 1
 			daoSitio.addSitio(sitio);
 
-			//Subtransaccion 2
+			// Subtransaccion 2
 			if (sitio.getEspecificaciones() != null && !sitio.getEspecificaciones().isEmpty())
 				for (Especificacion especificacion : sitio.getEspecificaciones())
-					daoSitioEspec.addEspecificacionToSitio(especificacion.getId(), sitio.getId(), especificacion.getEspecificacion());
+					daoSitioEspec.addEspecificacionToSitio(especificacion.getId(), sitio.getId(),
+							especificacion.getEspecificacion());
 
-			//Subtransaccion 3
+			// Subtransaccion 3
 			int totalLocalidadesNoExistentes = 0;
 			for (Localidad localidad : sitio.getLocalidades()) {
 				if (!daoLocalidades.existeLocalidad(localidad.getId()))
 					totalLocalidadesNoExistentes++;
-				else if(daoLocalidades.existeLocalidad(localidad.getId()))
+				else if (daoLocalidades.existeLocalidad(localidad.getId()))
 					daoSitioLocalidad.addLocalidadToSitio(sitio.getId(), localidad.getId());
 			}
 
-			//Chequeo de existencia de localidades
-			if (sitio.getLocalidades().isEmpty() ||
-					sitio.getLocalidades() == null ||
-					sitio.getLocalidades().size() == totalLocalidadesNoExistentes)
-			{
+			// Chequeo de existencia de localidades
+			if (sitio.getLocalidades().isEmpty() || sitio.getLocalidades() == null
+					|| sitio.getLocalidades().size() == totalLocalidadesNoExistentes) {
 				conn.rollback();
 				throw new Exception("Las localidades deben existir al momento de crear un sitio.");
 			}
@@ -909,7 +907,9 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoSitio.cerrarRecursos();
-
+				daoLocalidades.cerrarRecursos();
+				daoSitioLocalidad.cerrarRecursos();
+				daoSitioEspec.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -920,25 +920,43 @@ public class FestivAndesMaster {
 		}
 	}
 
+	private void addFuncionPriv(Funcion funcion) throws Exception {
+		DAOTablaFunciones daoFunciones = new DAOTablaFunciones();
+
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			conn.setAutoCommit(true);
+			daoFunciones.setConn(conn);
+
+			daoFunciones.addFuncion(funcion);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	public void addFuncion(Funcion funcion) throws Exception {
 		// TODO Auto-generated method stub
-		DAOTablaFunciones daoFunciones = new DAOTablaFunciones();
 		DAOTablaSitios daoSitios = new DAOTablaSitios();
 		DAOTablaCupos daoCupos = new DAOTablaCupos();
 
 		try {
 			// Transaccion
 			this.conn = darConexion();
-			conn.setAutoCommit(false);
-			daoFunciones.setConn(conn);
 			daoSitios.setConn(conn);
 			daoCupos.setConn(conn);
 
-			daoFunciones.addFuncion(funcion);
-
+			addFuncionPriv(funcion);
+			conn.commit();
 			int cupoInicial = daoSitios.getAforoSitio(funcion.getIdSitio());
 			daoCupos.addCupo(funcion, cupoInicial);
-
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -950,7 +968,8 @@ public class FestivAndesMaster {
 			throw e;
 		} finally {
 			try {
-				daoFunciones.cerrarRecursos();
+				daoSitios.cerrarRecursos();
+				daoCupos.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -990,40 +1009,6 @@ public class FestivAndesMaster {
 		}
 	}
 
-	//	public Cliente getClienteMasEspectaculos() throws SQLException, Exception {
-	//		// TODO Auto-generated method stub
-	//		DAOTablaEspectador daoCompania = new DAOTablaEspectador();
-	//		Cliente c = null;
-	//
-	//		try {
-	//			// Transaccion
-	//			this.conn = darConexion();
-	//			daoCompania.setConn(conn);
-	//			c = daoCompania.darClienteMasEspectaculo();
-	//		} catch (SQLException e) {
-	//			System.err.println("SQLException:" + e.getMessage());
-	//			e.printStackTrace();
-	//			throw e;
-	//		} catch (Exception e) {
-	//			System.err.println("GeneralException:" + e.getMessage());
-	//			e.printStackTrace();
-	//			throw e;
-	//		} finally {
-	//			try {
-	//				daoCompania.cerrarRecursos();
-	//				if (this.conn != null)
-	//					this.conn.close();
-	//			} catch (SQLException exception) {
-	//				System.err.println("SQLException closing resources:" + exception.getMessage());
-	//				exception.printStackTrace();
-	//				throw exception;
-	//			}
-	//		}
-	//
-	//		return c;
-	//	}
-
-
 	public void addGeneros(Cliente cliente, GeneroList generos) throws Exception {
 		// TODO Auto-generated method stub
 		DAOTablaPreferencias daoPreferencias = new DAOTablaPreferencias();
@@ -1040,13 +1025,12 @@ public class FestivAndesMaster {
 			for (Genero genero : generos.getGeneros()) {
 				if (!daoGeneros.existeGenero(genero.getId()))
 					totalGenerosNoExistentes++;
-				else if(daoGeneros.existeGenero(genero.getId()))
+				else if (daoGeneros.existeGenero(genero.getId()))
 					daoPreferencias.addPreferencia(cliente, genero);
 			}
 
-			if (generos.getGeneros().isEmpty() ||
-					generos.getGeneros() == null ||
-					generos.getGeneros().size() == totalGenerosNoExistentes) {
+			if (generos.getGeneros().isEmpty() || generos.getGeneros() == null
+					|| generos.getGeneros().size() == totalGenerosNoExistentes) {
 				conn.rollback();
 			}
 
@@ -1062,6 +1046,7 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoPreferencias.cerrarRecursos();
+				daoGeneros.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -1091,8 +1076,7 @@ public class FestivAndesMaster {
 				daoCupos.updateCupoVentaBoleta(boleta);
 
 				conn.commit();
-			}
-			else {
+			} else {
 				throw new Exception("No hay cupo disponible para la función.");
 			}
 		} catch (SQLException e) {
@@ -1105,7 +1089,9 @@ public class FestivAndesMaster {
 			throw e;
 		} finally {
 			try {
+				daoBoletas.cerrarRecursos();
 				daoVentas.cerrarRecursos();
+				daoCupos.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -1158,7 +1144,9 @@ public class FestivAndesMaster {
 			throw e;
 		} finally {
 			try {
+				daoBoletas.cerrarRecursos();
 				daoVentas.cerrarRecursos();
+				daoCupos.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -1168,7 +1156,7 @@ public class FestivAndesMaster {
 			}
 		}
 	}
-	
+
 	public void regresarBoleta(Cliente cliente, Boleta boleta) throws Exception {
 		DAOTablaBoletas daoBoletas = new DAOTablaBoletas();
 		DAOTablaVentas daoVentas = new DAOTablaVentas();
@@ -1182,70 +1170,11 @@ public class FestivAndesMaster {
 			daoCupos.setConn(conn);
 			conn.setAutoCommit(false);
 
-			daoBoletas.regresarBoleta(boleta);
 			daoVentas.regresarVenta(cliente, boleta);
+			daoBoletas.regresarBoleta(boleta);
 			daoCupos.updateCupoRegresoBoleta(boleta);
 
 			conn.commit();
-		}catch (SQLException e) {
-			System.err.println("SQLException:" + e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e) {
-			System.err.println("GeneralException:" + e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} finally {
-			try {
-				daoVentas.cerrarRecursos();
-				if (this.conn != null)
-					this.conn.close();
-			} catch (SQLException exception) {
-				System.err.println("SQLException closing resources:" + exception.getMessage());
-				exception.printStackTrace();
-				throw exception;
-			}
-		}
-	}
-	
-	private boolean comprarBoletasAbonoReg(Cliente cliente, BoletaList boletas) throws Exception {
-		DAOTablaBoletas daoBoletas = new DAOTablaBoletas();
-		DAOTablaVentas daoVentas = new DAOTablaVentas();
-		DAOTablaCupos daoCupos = new DAOTablaCupos();
-		
-		boolean compraRealizada = false;
-	
-		try {
-			// Transaccion
-			this.conn = darConexion();
-			daoBoletas.setConn(conn);
-			daoVentas.setConn(conn);
-			daoCupos.setConn(conn);
-			conn.setAutoCommit(false);
-	
-			int cantBoletasCompradas = 0;
-	
-			for (Boleta boleta : boletas.getBoletas()) {
-				if (daoCupos.getCupoActual(boleta.getIdEspectaculo(), boleta.getIdFuncion()) > 0) {
-					daoBoletas.addBoletaAbono(boleta);
-					daoVentas.addVenta(cliente, boleta);
-					daoCupos.updateCupoVentaBoleta(boleta);
-	
-					conn.setSavepoint();
-					cantBoletasCompradas++;
-				}
-			}
-	
-			if (boletas.getBoletas().size() == cantBoletasCompradas) {
-				conn.commit();
-				compraRealizada = true;
-			}
-			else {
-				conn.rollback();
-				throw new Exception("No hay cupo disponible para la función.");
-			}
-			
-			return compraRealizada;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -1257,6 +1186,68 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoVentas.cerrarRecursos();
+				daoBoletas.cerrarRecursos();
+				daoCupos.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	private boolean comprarBoletasAbonoReg(Cliente cliente, BoletaList boletas) throws Exception {
+		DAOTablaBoletas daoBoletas = new DAOTablaBoletas();
+		DAOTablaVentas daoVentas = new DAOTablaVentas();
+		DAOTablaCupos daoCupos = new DAOTablaCupos();
+
+		boolean compraRealizada = false;
+
+		try {
+			// Transaccion
+			this.conn = darConexion();
+			daoBoletas.setConn(conn);
+			daoVentas.setConn(conn);
+			daoCupos.setConn(conn);
+			conn.setAutoCommit(false);
+
+			int cantBoletasCompradas = 0;
+
+			for (Boleta boleta : boletas.getBoletas()) {
+				if (daoCupos.getCupoActual(boleta.getIdEspectaculo(), boleta.getIdFuncion()) > 0) {
+					daoBoletas.addBoletaAbono(boleta);
+					daoVentas.addVenta(cliente, boleta);
+					daoCupos.updateCupoVentaBoleta(boleta);
+
+					cantBoletasCompradas++;
+					conn.setSavepoint();
+				}
+			}
+
+			if (boletas.getBoletas().size() == cantBoletasCompradas) {
+				conn.commit();
+				compraRealizada = true;
+			} else {
+				conn.rollback();
+				throw new Exception("No hay cupo disponible para la función.");
+			}
+
+			return compraRealizada;
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoBoletas.cerrarRecursos();
+				daoVentas.cerrarRecursos();
+				daoCupos.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -1275,16 +1266,15 @@ public class FestivAndesMaster {
 			this.conn = darConexion();
 			daoAbonados.setConn(conn);
 			conn.setAutoCommit(false);
-			
-			if(comprarBoletasAbonoReg(cliente, abono.getBoletas())) {
-				daoAbonados.addAbonado(cliente, abono);
-				conn.commit();				
-			}
+
+			daoAbonados.addAbonado(cliente, abono);
+			if (comprarBoletasAbonoReg(cliente, abono.getBoletas()))
+				conn.commit();
 			else {
 				conn.rollback();
 				throw new Exception("No se ha podido realizar el abono.");
 			}
-				
+
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -1305,12 +1295,12 @@ public class FestivAndesMaster {
 			}
 		}
 	}
-	
+
 	private void regresarBoletasAbonoReg(Cliente cliente, BoletaList boletas) throws SQLException, Exception {
 		DAOTablaBoletas daoBoletas = new DAOTablaBoletas();
 		DAOTablaVentas daoVentas = new DAOTablaVentas();
 		DAOTablaCupos daoCupos = new DAOTablaCupos();
-	
+
 		try {
 			// Transaccion
 			this.conn = darConexion();
@@ -1318,15 +1308,15 @@ public class FestivAndesMaster {
 			daoVentas.setConn(conn);
 			daoCupos.setConn(conn);
 			conn.setAutoCommit(false);
-	
+
 			for (Boleta boleta : boletas.getBoletas()) {
-					daoBoletas.regresarBoletaAbono(boleta);
-					daoVentas.regresarVenta(cliente, boleta);
-					daoCupos.updateCupoRegresoBoleta(boleta);
-	
-					conn.setSavepoint();
+				daoVentas.regresarVenta(cliente, boleta);
+				daoBoletas.regresarBoletaAbono(boleta);
+				daoCupos.updateCupoRegresoBoleta(boleta);
+
+				conn.setSavepoint();
 			}
-	
+
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -1339,6 +1329,8 @@ public class FestivAndesMaster {
 		} finally {
 			try {
 				daoVentas.cerrarRecursos();
+				daoBoletas.cerrarRecursos();
+				daoCupos.cerrarRecursos();
 				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -1357,10 +1349,10 @@ public class FestivAndesMaster {
 			this.conn = darConexion();
 			daoAbonados.setConn(conn);
 			conn.setAutoCommit(false);
-			
+
 			regresarBoletasAbonoReg(cliente, abono.getBoletas());
 			daoAbonados.eliminarAbonado(cliente, abono);
-			
+
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());

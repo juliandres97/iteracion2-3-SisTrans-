@@ -19,7 +19,7 @@ public class CompaniaList {
 	/**
 	 * @param companias
 	 */
-	public CompaniaList(List<Compania> companias) {
+	public CompaniaList(@JsonProperty(value = "companias") List<Compania> companias) {
 		this.companias = companias;
 	}
 

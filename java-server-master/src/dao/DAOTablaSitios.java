@@ -119,11 +119,9 @@ public class DAOTablaSitios {
 	}
 
 	public int getAforoSitio(int idSitio) throws SQLException {
-		int aforo = 0;
+		int aforo = -1;
 	
-		String query = "SELECT S.AFORO "
-				+ "FROM ISIS2304B031710.SITIOS S "
-				+ "WHERE S.ID = ?";
+		String query = "SELECT AFORO FROM ISIS2304B031710.SITIOS WHERE ID = ?";
 	
 		PreparedStatement prepStmt = conn.prepareStatement(query);
 		prepStmt.setInt(1, idSitio);

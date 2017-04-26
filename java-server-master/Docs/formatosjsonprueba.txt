@@ -126,3 +126,42 @@
 		}
 	]
 }
+
+----------------------------------------------------------------------------------------------------------
+
+Quiz
+
+// public Cliente getClienteMasEspectaculos() throws SQLException, Exception
+	// {
+	// // TODO Auto-generated method stub
+	// DAOTablaEspectador daoCompania = new DAOTablaEspectador();
+	// Cliente c = null;
+	//
+	// try {
+	// // Transaccion
+	// this.conn = darConexion();
+	// daoCompania.setConn(conn);
+	// c = daoCompania.darClienteMasEspectaculo();
+	// } catch (SQLException e) {
+	// System.err.println("SQLException:" + e.getMessage());
+	// e.printStackTrace();
+	// throw e;
+	// } catch (Exception e) {
+	// System.err.println("GeneralException:" + e.getMessage());
+	// e.printStackTrace();
+	// throw e;
+	// } finally {
+	// try {
+	// daoCompania.cerrarRecursos();
+	// if (this.conn != null)
+	// this.conn.close();
+	// } catch (SQLException exception) {
+	// System.err.println("SQLException closing resources:" +
+	// exception.getMessage());
+	// exception.printStackTrace();
+	// throw exception;
+	// }
+	// }
+	//
+	// return c;
+	// }

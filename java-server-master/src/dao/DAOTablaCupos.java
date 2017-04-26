@@ -69,11 +69,12 @@ public class DAOTablaCupos {
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
 	public void addCupo(Funcion funcion, int cupo) throws SQLException {
-		String insertIntoCUPOS = "INSERT INTO ISIS2304B031710.CUPOS VALUES (?,?,?)";
+		String insertIntoCUPOS = "INSERT INTO ISIS2304B031710.CUPOS VALUES (?,?,?,?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoCUPOS);
 		prepStmt.setInt(1, funcion.getId());
 		prepStmt.setInt(2, funcion.getIdEspectaculo());
-		prepStmt.setInt(3, cupo);
+		prepStmt.setInt(3, funcion.getIdSitio());
+		prepStmt.setInt(4, cupo);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -85,6 +86,7 @@ public class DAOTablaCupos {
 		prepStmt.setInt(1, nuevoCupo);
 		prepStmt.setInt(2, boleta.getIdEspectaculo());
 		prepStmt.setInt(3, boleta.getIdFuncion());
+		prepStmt.setInt(4, boleta.getIdSitio());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -96,6 +98,7 @@ public class DAOTablaCupos {
 		prepStmt.setInt(1, nuevoCupo);
 		prepStmt.setInt(2, boleta.getIdEspectaculo());
 		prepStmt.setInt(3, boleta.getIdFuncion());
+		prepStmt.setInt(4, boleta.getIdSitio());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}

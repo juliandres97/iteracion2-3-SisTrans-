@@ -28,7 +28,7 @@ public class Boleta {
 	private int valor;
 
 	@JsonProperty(value = "abono")
-	private String abono;
+	private int idAbono;
 
 	/**
 	 * @param id
@@ -39,13 +39,13 @@ public class Boleta {
 	 */
 	public Boleta(@JsonProperty(value = "id") int id, @JsonProperty(value = "idEspectaculo") int idEspectaculo,
 			@JsonProperty(value = "idFuncion") int idFuncion, @JsonProperty(value = "idSitio") int idSitio,
-			@JsonProperty(value = "valor") int valor, @JsonProperty(value = "abono") String abono) {
+			@JsonProperty(value = "valor") int valor, @JsonProperty(value = "abono") int idAbono) {
 		this.id = id;
 		this.idEspectaculo = idEspectaculo;
 		this.idFuncion = idFuncion;
 		this.idSitio = idSitio;
 		this.valor = valor;
-		this.abono = abono;
+		this.idAbono = idAbono;
 	}
 
 	/**
@@ -130,16 +130,16 @@ public class Boleta {
 	/**
 	 * @return the abono
 	 */
-	public String getAbono() {
-		return abono;
+	public int getIdAbono() {
+		return idAbono;
 	}
 
 	/**
 	 * @param abono
 	 *            the abono to set
 	 */
-	public void setAbono(String abono) {
-		this.abono = abono;
+	public void setIdAbono(int abono) {
+		this.idAbono = abono;
 	}
 
 }

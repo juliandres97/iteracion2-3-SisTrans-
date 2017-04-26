@@ -77,7 +77,7 @@ public class FestivAndesBasicServices {
 	 * @return Json con los miembros que agrego o Json con el error que se
 	 *         produjo
 	 */
-	@PUT
+	@POST
 	@Path("/crearmiembros")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

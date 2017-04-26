@@ -78,35 +78,6 @@ public class DAOTablaFunciones {
 		prepStmt.executeQuery();
 	}
 
-//	private Espectaculo existeEspectaculo(int idEspectaculo) throws Exception {
-//		DAOTablaEspectaculos daoEspectaculo = new DAOTablaEspectaculos();
-//		Espectaculo espectaculo = null;
-//
-//		try {
-//			espectaculo = daoEspectaculo.searchById(idEspectaculo);
-//		} catch (SQLException e) {
-//			System.err.println("SQLException:" + e.getMessage());
-//			e.printStackTrace();
-//			throw e;
-//		} catch (Exception e) {
-//			System.err.println("GeneralException:" + e.getMessage());
-//			e.printStackTrace();
-//			throw e;
-//		} finally {
-//			try {
-//				daoEspectaculo.cerrarRecursos();
-//				if (this.conn != null)
-//					this.conn.close();
-//			} catch (SQLException exception) {
-//				System.err.println("SQLException closing resources:" + exception.getMessage());
-//				exception.printStackTrace();
-//				throw exception;
-//			}
-//		}
-//
-//		return espectaculo;
-//	}
-
 	/**
 	 * Método que busca el/los videos con el nombre que entra como parámetro.
 	 * 
@@ -121,7 +92,7 @@ public class DAOTablaFunciones {
 	public Funcion searchFuncionByIdyIdEspectaculo(int id, int idEspectaculo) throws SQLException, Exception {
 		Funcion funcion = null;
 
-		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES WHERE (ID = ? AND ID_ESPECTACUL0 = ?)";
+		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES WHERE (ID = ?) AND (ID_ESPECTACUL0 = ?)";
 
 		PreparedStatement prepStmt = conn.prepareStatement(query);
 		prepStmt.setInt(1, id);
@@ -157,9 +128,11 @@ public class DAOTablaFunciones {
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
 	public void deleteFuncion(Funcion funcion) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE ISIS2304B031710.FUNCIONES WHERE ID = ?";
+		String deleteSTAFF = "DELETE ISIS2304B031710.FUNCIONES WHERE (ID = ?) AND (ID_ESPECTACUL0 = ?) AND (ID_SITIO = ?)";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
 		presStmt.setInt(1, funcion.getId());
+		presStmt.setInt(2, funcion.getIdEspectaculo());
+		presStmt.setInt(3, funcion.getIdSitio());
 		recursos.add(presStmt);
 		presStmt.executeQuery();
 	}
