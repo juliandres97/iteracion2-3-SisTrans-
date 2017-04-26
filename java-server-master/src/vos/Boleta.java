@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author ja.bermudez10
  *
  */
+
 public class Boleta {
 
 	@JsonProperty(value = "id")
@@ -26,6 +27,9 @@ public class Boleta {
 	@JsonProperty(value = "valor")
 	private int valor;
 
+	@JsonProperty(value = "abono")
+	private String abono;
+
 	/**
 	 * @param id
 	 * @param idEspectaculo
@@ -34,12 +38,14 @@ public class Boleta {
 	 * @param valor
 	 */
 	public Boleta(@JsonProperty(value = "id") int id, @JsonProperty(value = "idEspectaculo") int idEspectaculo,
-			@JsonProperty(value = "idFuncion") int idFuncion, @JsonProperty(value = "idSitio") int idSitio, @JsonProperty(value = "valor") int valor) {
+			@JsonProperty(value = "idFuncion") int idFuncion, @JsonProperty(value = "idSitio") int idSitio,
+			@JsonProperty(value = "valor") int valor, @JsonProperty(value = "abono") String abono) {
 		this.id = id;
 		this.idEspectaculo = idEspectaculo;
 		this.idFuncion = idFuncion;
 		this.idSitio = idSitio;
 		this.valor = valor;
+		this.abono = abono;
 	}
 
 	/**
@@ -50,7 +56,8 @@ public class Boleta {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -64,7 +71,8 @@ public class Boleta {
 	}
 
 	/**
-	 * @param idEspectaculo the idEspectaculo to set
+	 * @param idEspectaculo
+	 *            the idEspectaculo to set
 	 */
 	public void setIdEspectaculo(int idEspectaculo) {
 		this.idEspectaculo = idEspectaculo;
@@ -78,7 +86,8 @@ public class Boleta {
 	}
 
 	/**
-	 * @param idFuncion the idFuncion to set
+	 * @param idFuncion
+	 *            the idFuncion to set
 	 */
 	public void setIdFuncion(int idFuncion) {
 		this.idFuncion = idFuncion;
@@ -92,7 +101,8 @@ public class Boleta {
 	}
 
 	/**
-	 * @param idSitio the idSitio to set
+	 * @param idSitio
+	 *            the idSitio to set
 	 */
 	public void setIdSitio(int idSitio) {
 		this.idSitio = idSitio;
@@ -106,10 +116,30 @@ public class Boleta {
 	}
 
 	/**
-	 * @param valor the valor to set
+	 * @param valor
+	 *            the valor to set
 	 */
 	public void setValor(int valor) {
 		this.valor = valor;
 	}
-	
+
+	public int getValorConDescuento() {
+		return (int) (valor * 0.8);
+	}
+
+	/**
+	 * @return the abono
+	 */
+	public String getAbono() {
+		return abono;
+	}
+
+	/**
+	 * @param abono
+	 *            the abono to set
+	 */
+	public void setAbono(String abono) {
+		this.abono = abono;
+	}
+
 }

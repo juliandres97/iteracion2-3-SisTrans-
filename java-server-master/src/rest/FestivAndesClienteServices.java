@@ -190,4 +190,24 @@ public class FestivAndesClienteServices {
 		}
 	}
 	
+	@DELETE
+	@Path("/returnabono")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response regresarAbono(Abono abono) {
+		FestivAndesMaster tm = new FestivAndesMaster(getPath());
+
+		if (clientSessionStarted) {			
+			try {
+				tm.regresarAbono(currentClient, abono);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(abono).build();
+		} else {
+			return Response.status(401).entity(doJSONMessage("UNAUTHORIZED", "Sin autorizacion.")).build();
+		}
+	}
+	
+	
 }

@@ -71,10 +71,7 @@ public class DAOTablaAbonos {
 		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.ABONOS VALUES (?,?,?,?,?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
 		prepStmt.setInt(1, abono.getId());
-		prepStmt.setInt(2, abono.getIdEspectaculo());
-		prepStmt.setInt(3, abono.getIdFuncion());
-		prepStmt.setInt(4, abono.getIdSitio());
-		prepStmt.setInt(5, abono.getDescuento());
+		
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -95,7 +92,7 @@ public class DAOTablaAbonos {
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
 	public void regresarAbono(Abono abono) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE ISIS2304B031710.BOLETAS WHERE ID = ?";
+		String deleteSTAFF = "DELETE FROM ISIS2304B031710.ABONOS WHERE ID = ?";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
 		presStmt.setInt(1, abono.getId());
 		recursos.add(presStmt);

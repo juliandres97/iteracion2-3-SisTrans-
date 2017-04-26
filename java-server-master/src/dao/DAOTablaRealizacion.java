@@ -2,13 +2,11 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.Boleta;
-import vos.Cliente;
+import vos.FuncionRealizada;
 
-public class DAOTablaVentas {
+public class DAOTablaRealizacion {
 	/**
 	 * Arraylits de recursos que se usan para la ejecucion de sentencias SQL
 	 */
@@ -23,7 +21,7 @@ public class DAOTablaVentas {
 	 * Metodo constructor <b>post: </b> Crea la instancia del DAO e inicializa
 	 * el Arraylist de recursos
 	 */
-	public DAOTablaVentas() {
+	public DAOTablaRealizacion() {
 		recursos = new ArrayList<Object>();
 	}
 
@@ -54,35 +52,24 @@ public class DAOTablaVentas {
 	}
 
 	/**
-	 * Metodo que agrega el usuario que entra como parametro a la base de datos.
+	 * Metodo que agrega el funcion que entra como parametro a la base de datos.
 	 * 
 	 * @param video
 	 *            - el video a agregar. video != null <b> post: </b> se ha
 	 *            agregado el video a la base de datos en la transaction actual.
 	 *            pendiente que el video master haga commit para que el video
 	 *            baje a la base de datos.
-	 * @throws SQLException
-	 *             - Cualquier error que la base de datos arroje. No pudo
-	 *             agregar el video a la base de datos
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addVenta(Cliente cliente, Boleta boleta) throws SQLException {
+	public void addRealizacion(FuncionRealizada funcion) throws Exception {
 		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.VENTAS VALUES (?,?)";
-		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
-		prepStmt.setInt(1, cliente.getId());
-		prepStmt.setInt(2, boleta.getId());
-		recursos.add(prepStmt);
-		prepStmt.executeQuery();
-	}
-	
-	public void regresarVenta(Cliente cliente, Boleta boleta) throws SQLException {
-		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "DELETE FROM ISIS2304B031710.VENTAS WHERE (ID_BOLETA = ?) AND (ID_CLIENTE = ?)";
-		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
-		prepStmt.setInt(1, boleta.getId());
-		prepStmt.setInt(2, cliente.getId());
+		String insertIntoFUNCIONES = "INSERT INTO ISIS2304B031710.REALIZACION_FUNCIONES VALUES (?,?,?)";
+		PreparedStatement prepStmt = conn.prepareStatement(insertIntoFUNCIONES);
+		
+		prepStmt.setInt(1, funcion.getId());
+		prepStmt.setInt(2, funcion.getIdEspectaculo());
+		prepStmt.setString(3, funcion.getRealizado());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}

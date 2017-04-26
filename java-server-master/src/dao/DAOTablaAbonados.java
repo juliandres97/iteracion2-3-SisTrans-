@@ -77,12 +77,14 @@ public class DAOTablaAbonados {
 		prepStmt.executeQuery();
 	}
 	
-	public void regresarAbonado(Abono abono) throws SQLException {
+	public void eliminarAbonado(Cliente cliente, Abono abono) throws SQLException {
 		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "DELETE ISIS2304B031710.VENTAS WHERE ID_BOLETA = ?";
+		String insertIntoSTAFF = "DELETE FROM ISIS2304B031710.ABONADOS WHERE (ID_BOLETA = ?) AND (ID_CLIENTE = ?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
 		prepStmt.setInt(1, abono.getId());
+		prepStmt.setInt(2, cliente.getId());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
+	
 }
