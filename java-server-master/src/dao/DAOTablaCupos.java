@@ -86,7 +86,6 @@ public class DAOTablaCupos {
 		prepStmt.setInt(1, nuevoCupo);
 		prepStmt.setInt(2, boleta.getIdEspectaculo());
 		prepStmt.setInt(3, boleta.getIdFuncion());
-		prepStmt.setInt(4, boleta.getIdSitio());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -98,7 +97,6 @@ public class DAOTablaCupos {
 		prepStmt.setInt(1, nuevoCupo);
 		prepStmt.setInt(2, boleta.getIdEspectaculo());
 		prepStmt.setInt(3, boleta.getIdFuncion());
-		prepStmt.setInt(4, boleta.getIdSitio());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}

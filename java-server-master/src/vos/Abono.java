@@ -1,5 +1,7 @@
 package vos;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Abono {
@@ -8,13 +10,13 @@ public class Abono {
 	private int id;
 
 	@JsonProperty(value = "boletas")
-	private BoletaList boletas;
+	private List<Boleta> boletas;
 
 	/**
 	 * @param id
 	 * @param boletas
 	 */
-	public Abono(@JsonProperty(value = "id") int id, @JsonProperty(value = "boletas") BoletaList boletas) {
+	public Abono(@JsonProperty(value = "id") int id, @JsonProperty(value = "boletas") List<Boleta> boletas) {
 		this.id = id;
 		this.boletas = boletas;
 	}
@@ -37,14 +39,14 @@ public class Abono {
 	/**
 	 * @return the boletas
 	 */
-	public BoletaList getBoletas() {
+	public List<Boleta> getBoletas() {
 		return boletas;
 	}
 
 	/**
 	 * @param boletas the boletas to set
 	 */
-	public void setBoletas(BoletaList boletas) {
+	public void setBoletas(List<Boleta> boletas) {
 		this.boletas = boletas;
 	}
 	

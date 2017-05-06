@@ -29,6 +29,8 @@ public class Espectaculo {
 
 	@JsonProperty(value = "companias")
 	private List<Compania> companias;
+	
+	
 
 	public Espectaculo(@JsonProperty(value = "id") int id, @JsonProperty(value = "nombre") String nombre,
 			@JsonProperty(value = "duracion") int duracion, @JsonProperty(value = "idioma") String idioma,

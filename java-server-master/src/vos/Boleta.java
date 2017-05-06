@@ -3,6 +3,7 @@
  */
 package vos;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -24,9 +25,6 @@ public class Boleta {
 	@JsonProperty(value = "idSitio")
 	private int idSitio;
 
-	@JsonProperty(value = "abono")
-	private int idAbono;
-
 	@JsonProperty(value = "valor")
 	private int valor;
 
@@ -39,13 +37,12 @@ public class Boleta {
 	 */
 	public Boleta(@JsonProperty(value = "id") int id, @JsonProperty(value = "idEspectaculo") int idEspectaculo,
 			@JsonProperty(value = "idFuncion") int idFuncion, @JsonProperty(value = "idSitio") int idSitio,
-			@JsonProperty(value = "valor") int valor, @JsonProperty(value = "abono") int idAbono) {
+			@JsonProperty(value = "valor") int valor) {
 		this.id = id;
 		this.idEspectaculo = idEspectaculo;
 		this.idFuncion = idFuncion;
 		this.idSitio = idSitio;
 		this.valor = valor;
-		this.idAbono = idAbono;
 	}
 
 	/**
@@ -123,23 +120,9 @@ public class Boleta {
 		this.valor = valor;
 	}
 
+	@JsonIgnore
 	public int getValorConDescuento() {
-		return (int) ((valor)*(0.8));
-	}
-
-	/**
-	 * @return the abono
-	 */
-	public int getIdAbono() {
-		return idAbono;
-	}
-
-	/**
-	 * @param abono
-	 *            the abono to set
-	 */
-	public void setIdAbono(int abono) {
-		this.idAbono = abono;
+		return (int) ((valor) * (0.8));
 	}
 
 }

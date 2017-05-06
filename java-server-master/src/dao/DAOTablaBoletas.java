@@ -2,9 +2,12 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
+import vos.Abono;
 import vos.Boleta;
 
 public class DAOTablaBoletas {
@@ -74,8 +77,8 @@ public class DAOTablaBoletas {
 		prepStmt.setInt(2, boleta.getIdEspectaculo());
 		prepStmt.setInt(3, boleta.getIdFuncion());
 		prepStmt.setInt(4, boleta.getIdSitio());
-		prepStmt.setInt(5, boleta.getValor());
-		prepStmt.setInt(6, boleta.getIdAbono());
+		prepStmt.setNull(5, java.sql.Types.INTEGER);
+		prepStmt.setInt(6, boleta.getValor());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -96,7 +99,7 @@ public class DAOTablaBoletas {
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
 	public void regresarBoleta(Boleta boleta) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE FROM ISIS2304B031710.BOLETAS WHERE ID = ?";
+		String deleteSTAFF = "DELETE FROM ISIS2304B031710.BOLETAS WHERE (ID = ?) AND (ID_ABONO IS NULL)";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
 		presStmt.setInt(1, boleta.getId());
 		recursos.add(presStmt);
@@ -117,7 +120,7 @@ public class DAOTablaBoletas {
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addBoletaAbono(Boleta boleta) throws SQLException {
+	public void addBoletaAbono(Abono abono, Boleta boleta) throws SQLException {
 		// TODO Auto-generated method stub
 		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.BOLETAS VALUES (?,?,?,?,?,?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
@@ -125,8 +128,8 @@ public class DAOTablaBoletas {
 		prepStmt.setInt(2, boleta.getIdEspectaculo());
 		prepStmt.setInt(3, boleta.getIdFuncion());
 		prepStmt.setInt(4, boleta.getIdSitio());
-		prepStmt.setInt(5, boleta.getValorConDescuento());
-		prepStmt.setInt(6, boleta.getIdAbono());
+		prepStmt.setInt(5, abono.getId());
+		prepStmt.setInt(6, boleta.getValorConDescuento());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
@@ -146,13 +149,34 @@ public class DAOTablaBoletas {
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void regresarBoletaAbono(Boleta boleta) throws SQLException, Exception {
-		String deleteSTAFF = "DELETE FROM ISIS2304B031710.BOLETAS WHERE (ID = ?) AND (ID_ABONO = ?)";
+	public void regresarBoletaAbono(Abono abono) throws SQLException, Exception {
+		String deleteSTAFF = "DELETE FROM ISIS2304B031710.BOLETAS WHERE (ID_ABONO = ?)";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
-		presStmt.setInt(1, boleta.getId());
-		presStmt.setInt(2, boleta.getIdAbono());
+		presStmt.setInt(1, abono.getId());
 		recursos.add(presStmt);
 		presStmt.executeQuery();
 	}
 	
+	public List<Boleta> buscarBoletasAbono(Abono abono) throws SQLException, Exception {
+		List<Boleta> boletasAbono = new ArrayList<Boleta>();
+		
+		String deleteSTAFF = "SELECT * FROM ISIS2304B031710.BOLETAS WHERE (ID_ABONO = ?)";
+		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
+		presStmt.setInt(1, abono.getId());
+		recursos.add(presStmt);
+		ResultSet rs = presStmt.executeQuery();
+		
+		while(rs.next()) {
+			int id = rs.getInt("ID");
+			int idEspectaculo = rs.getInt("ID_ESPECTACULO");
+			int idFuncion = rs.getInt("ID_FUNCION");
+			int idSitio = rs.getInt("ID_SITIO");
+			int valor = rs.getInt("VALOR");
+			
+			Boleta boletaEncontrada = new Boleta(id, idEspectaculo, idFuncion, idSitio, valor);
+			boletasAbono.add(boletaEncontrada);
+		}
+		
+		return boletasAbono;
+	}
 }

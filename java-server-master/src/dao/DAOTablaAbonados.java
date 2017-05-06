@@ -71,15 +71,15 @@ public class DAOTablaAbonados {
 		// TODO Auto-generated method stub
 		String insertIntoSTAFF = "INSERT INTO ISIS2304B031710.ABONADOS VALUES (?,?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
-		prepStmt.setInt(1, cliente.getId());
-		prepStmt.setInt(2, abono.getId());
+		prepStmt.setInt(1, abono.getId());
+		prepStmt.setInt(2, cliente.getId());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
 	
 	public void eliminarAbonado(Cliente cliente, Abono abono) throws SQLException {
 		// TODO Auto-generated method stub
-		String insertIntoSTAFF = "DELETE FROM ISIS2304B031710.ABONADOS WHERE (ID_BOLETA = ?) AND (ID_CLIENTE = ?)";
+		String insertIntoSTAFF = "DELETE FROM ISIS2304B031710.ABONADOS WHERE (ID = ?) AND (ID_CLIENTE = ?)";
 		PreparedStatement prepStmt = conn.prepareStatement(insertIntoSTAFF);
 		prepStmt.setInt(1, abono.getId());
 		prepStmt.setInt(2, cliente.getId());
