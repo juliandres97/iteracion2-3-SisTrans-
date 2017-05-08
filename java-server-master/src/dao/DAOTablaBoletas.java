@@ -149,7 +149,7 @@ public class DAOTablaBoletas {
 	 * @throws Exception
 	 *             - Cualquier error que no corresponda a la base de datos
 	 */
-	public void regresarBoletaAbono(Abono abono) throws SQLException, Exception {
+	public void regresarBoletasAbono(Abono abono) throws SQLException, Exception {
 		String deleteSTAFF = "DELETE FROM ISIS2304B031710.BOLETAS WHERE (ID_ABONO = ?)";
 		PreparedStatement presStmt = conn.prepareStatement(deleteSTAFF);
 		presStmt.setInt(1, abono.getId());

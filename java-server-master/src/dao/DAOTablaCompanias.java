@@ -155,6 +155,33 @@ public class DAOTablaCompanias {
 
 		return compania;
 	}
+	
+	public Compania searchCompaniaByNombre(String nombreComp) throws SQLException, Exception {
+		Compania compania = null;
+
+		String query = "SELECT * FROM ISIS2304B031710.COMPANIAS WHERE (NOMBRE = ?)";
+
+		PreparedStatement prepStmt = conn.prepareStatement(query);
+		prepStmt.setString(1, nombreComp);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		if (rs.next()) {
+			int idQ = Integer.parseInt(rs.getString("ID"));
+			String nitQ = rs.getString("NIT");
+			String nombre = rs.getString("NOMBRE");
+			String representante = rs.getString("REPRESENTANTE");
+			String pais = rs.getString("PAIS");
+			String web = rs.getString("WEB");
+			String passwordQ = rs.getString("PASSWORD");
+			Date llegada = rs.getDate("LLEGADA");
+			Date salida = rs.getDate("SALIDA");
+			
+			compania = new Compania(idQ, nitQ, nombre, representante, pais, web, passwordQ, llegada, salida);
+		}
+
+		return compania;
+	}
 
 	/**
 	 * Metodo que modifica el usuario que entra como parametro a la base de

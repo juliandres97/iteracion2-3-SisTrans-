@@ -92,7 +92,7 @@ public class DAOTablaFunciones {
 	public Funcion searchFuncionByIdyIdEspectaculo(int id, int idEspectaculo) throws SQLException, Exception {
 		Funcion funcion = null;
 
-		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES WHERE (ID = ?) AND (ID_ESPECTACUL0 = ?)";
+		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES WHERE (ID = ?) AND (ID_ESPECTACULO = ?)";
 
 		PreparedStatement prepStmt = conn.prepareStatement(query);
 		prepStmt.setInt(1, id);
@@ -111,6 +111,31 @@ public class DAOTablaFunciones {
 
 		return funcion;
 	}
+	
+	public Funcion searchFuncionByIdEspectaculo(int idEspectaculo) throws SQLException, Exception {
+		Funcion funcion = null;
+
+		String query = "SELECT * FROM ISIS2304B031710.FUNCIONES WHERE (ID_ESPECTACULO = ?)";
+
+		PreparedStatement prepStmt = conn.prepareStatement(query);
+		prepStmt.setInt(1, idEspectaculo);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		if (rs.next()) {
+			int idQ = Integer.parseInt(rs.getString("ID"));
+			int idEspectaculoQ = Integer.parseInt(rs.getString("ID_ESPECTACULO"));
+			Date fechaRealizacion = rs.getDate("DIA_REALIZACION");
+			int idSitio = Integer.parseInt("ID_SITIO");
+
+			funcion = new Funcion(idQ, idEspectaculoQ, idSitio, fechaRealizacion);
+		}
+
+		return funcion;
+	}
+
+	//TODO
+	//public List
 
 	/**
 	 * Metodo que elimina el funcion que entra como parametro en la base de

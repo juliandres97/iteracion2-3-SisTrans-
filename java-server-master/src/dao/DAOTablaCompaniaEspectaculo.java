@@ -70,5 +70,7 @@ public class DAOTablaCompaniaEspectaculo {
 		recursos.add(innerPrepStmt);
 		innerPrepStmt.executeQuery();
 	}
+	
+	
 
 }
